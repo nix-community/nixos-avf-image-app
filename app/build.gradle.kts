@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.apollo)
 }
 
 android {
@@ -51,7 +52,22 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.apollo.runtime)
+
     // graphql
+    /* implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.5")
+    implementation("com.apollographql.apollo:apollo-api:4.1.1") */
+}
+
+apollo {
+    service("service") {
+        packageName.set("io.mkg20001.nixosimage")
+        introspection {
+            endpointUrl.set("https://api.github.com/graphql")
+            schemaFile.set(file("src/main/graphql/schema.graphqls"))
+        }
+    }
 }
