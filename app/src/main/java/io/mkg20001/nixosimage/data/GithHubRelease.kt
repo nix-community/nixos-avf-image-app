@@ -4,6 +4,8 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
 import okhttp3.OkHttpClient
 import io.mkg20001.nixosimage.GetReleasesQuery
+import okhttp3.Interceptor
+import okhttp3.Response
 import java.io.Serializable
 
 private val regexTag = Regex("^nixos-(?<version>[a-z0-9.]+)$")
@@ -25,7 +27,7 @@ data class GitHubRelease constructor(
     init {
         val res = regexTag.matchEntire(tagName)
         if (res != null) {
-            nixosVersion = res.groups["version"].toString()
+            nixosVersion = res.groups["version"]!!.value
         }
     }
 
@@ -49,8 +51,8 @@ data class GitHubReleaseAsset(
     init {
         val res = regexImage.matchEntire(name)
         if (res != null) {
-            version = res.groups["version"].toString()
-            arch = res.groups["arch"].toString()
+            version = res.groups["version"]!!.value
+            arch = res.groups["arch"]!!.value
         }
     }
 
@@ -59,10 +61,22 @@ data class GitHubReleaseAsset(
     }
 }
 
+private class AuthorizationInterceptor() : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request().newBuilder()
+            .apply {
+                    addHeader("Authorization", AUTH_HEADER)
+            }
+            .build()
+        return chain.proceed(request)
+    }
+}
+
 val apolloClient = ApolloClient.Builder()
     .serverUrl("https://api.github.com/graphql")
     .okHttpClient(
         OkHttpClient.Builder()
+            .addInterceptor(AuthorizationInterceptor())
             .build()
     )
     .build()

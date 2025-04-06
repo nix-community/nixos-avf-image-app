@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
         homeViewModel.imageRelease.observe(viewLifecycleOwner) {
             var items = it.map { DropdownItem(it.tagName, it.nixosVersion) }
 
-            if (!items.isEmpty()) {
+            if (items.isEmpty()) {
                 items = listOf(DropdownItem(true, getString(R.string.loading)))
             }
 
