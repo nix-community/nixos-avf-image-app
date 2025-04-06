@@ -6,8 +6,14 @@ import okhttp3.OkHttpClient
 import io.mkg20001.nixosimage.GetReleasesQuery
 import java.io.Serializable
 
-val regexTag = Regex("^nixos-(?<version>[a-z0-9.]+)$")
-val regexImage = Regex("^image-(?<version>[a-z0-9.]+)-(?<arch>[a-z0-9_-]+).tar.gz$")
+private val regexTag = Regex("^nixos-(?<version>[a-z0-9.]+)$")
+private val regexImage = Regex("^image-(?<version>[a-z0-9.]+)-(?<arch>[a-z0-9_-]+).tar.gz$")
+
+private val currentArch = System.getProperty("os.arch")
+val WANTED_ARCH = when(currentArch) {
+    "arm64" -> "aarch64"
+    else -> currentArch
+}
 
 data class GitHubRelease constructor(
     val tagName: String,
@@ -49,7 +55,7 @@ data class GitHubReleaseAsset(
     }
 
     fun isForCurrentArch(): Boolean {
-        TODO("d")
+        return WANTED_ARCH == arch
     }
 }
 
@@ -66,7 +72,7 @@ object GitHubReleaseClient {
         val resp = apolloClient.query(GetReleasesQuery()).execute()
 
         if (resp.exception != null) {
-            println(resp.exception)
+            resp.exception!!.printStackTrace()
             return null
         }
 

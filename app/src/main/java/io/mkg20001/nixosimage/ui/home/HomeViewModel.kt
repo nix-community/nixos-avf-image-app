@@ -39,7 +39,7 @@ class HomeViewModel : ViewModel() {
 
             _state.postValue(ImageViewState.READY)
         } catch(e: Exception) {
-            println(e)
+            e.printStackTrace()
             _state.postValue(ImageViewState.ERROR)
         }
 

@@ -1,6 +1,6 @@
 # Schema: https://docs.github.com/en/graphql/overview/public-schema
 
-query GetReleases($bla: String) {
+query GetReleases {
   repository(owner: "nix-community", name: "nixos-avf") {
     releases(first: 20) {
       nodes {
@@ -16,5 +16,3 @@ query GetReleases($bla: String) {
     }
   }
 }
-
-
