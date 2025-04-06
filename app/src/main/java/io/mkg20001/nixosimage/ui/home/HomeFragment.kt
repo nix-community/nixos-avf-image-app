@@ -1,5 +1,6 @@
 package io.mkg20001.nixosimage.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import io.mkg20001.nixosimage.Install
+import io.mkg20001.nixosimage.MainActivity
+import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
+
 
 class HomeFragment : Fragment() {
 
@@ -33,6 +38,17 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
         return root
+    }
+
+    fun bla(r: GitHubReleaseAsset) {
+        val intent: Intent = Intent(
+            MainActivity,
+            Install::class.java
+        )
+        val b = Bundle()
+        b.putSerializable("image", r)
+        intent.putExtras(b)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

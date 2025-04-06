@@ -3,5 +3,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
     <string name="introduction">NixOS Image Installer will help you download and install the NixOS Image for the Android Terminal app</string>
+
+    <string name="install_task">Task:</string>
+    <string name="install_version">Version:</string>
+    <string name="install_architecture">Architecture:</string>
+    <string name="install_step_downloading">Downloading NixOS image</string>
+    <string name="install_step_installing">Installing NixOS image</string>
 </resources>

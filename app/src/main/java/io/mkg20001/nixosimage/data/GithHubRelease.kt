@@ -4,11 +4,12 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
 import okhttp3.OkHttpClient
 import io.mkg20001.nixosimage.GetReleasesQuery
+import java.io.Serializable
 
 val regexTag = Regex("^nixos-(?<version>[a-z0-9.]+)$")
 val regexImage = Regex("^image-(?<version>[a-z0-9.]+)-(?<arch>[a-z0-9_-]+).tar.gz$")
 
-class GitHubRelease constructor(
+data class GitHubRelease constructor(
     val tagName: String,
     val assets: List<GitHubReleaseAsset>
 ) {
@@ -23,10 +24,10 @@ class GitHubRelease constructor(
     }
 }
 
-class GitHubReleaseAsset constructor(
+data class GitHubReleaseAsset(
     val name: String,
     var url: String,
-) {
+): Serializable {
     var arch = ""
     var version = ""
 
@@ -39,7 +40,6 @@ class GitHubReleaseAsset constructor(
         }
     }
 }
-
 
 val apolloClient = ApolloClient.Builder()
     .serverUrl("https://api.github.com/graphql")
