@@ -16,5 +16,6 @@
 
     <string name="method_magisk">Install using Magisk</string>
     <string name="method_debug">Install using Terminal Debug mode</string>
+    <string name="no_method">"No install methods found"</string>
     <string name="install">Install</string>
 </resources>
