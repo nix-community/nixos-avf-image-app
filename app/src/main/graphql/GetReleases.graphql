@@ -8,8 +8,10 @@ query GetReleases {
 
         releaseAssets(first: 20) {
           nodes {
+            id
             name
             url
+            updatedAt
           }
         }
       }

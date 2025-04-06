@@ -31,18 +31,16 @@ data class GitHubRelease constructor(
         }
     }
 
-    fun hasAnyForArch(): Boolean {
-        return assets.any { it.isForCurrentArch() }
-    }
-
-    fun getForArch(): GitHubReleaseAsset {
-        return assets.first { it.isForCurrentArch() }
+    fun getSupported(): List<GitHubReleaseAsset> {
+        return assets.filter { it.isSupported() }
     }
 }
 
 data class GitHubReleaseAsset(
+    val id: String,
     val name: String,
     var url: String,
+    var updatedAt: Any
 ): Serializable {
     var arch = ""
     var version = ""
@@ -56,7 +54,7 @@ data class GitHubReleaseAsset(
         }
     }
 
-    fun isForCurrentArch(): Boolean {
+    fun isSupported(): Boolean {
         return WANTED_ARCH == arch
     }
 }
@@ -94,9 +92,9 @@ object GitHubReleaseClient {
             GitHubRelease(
                 it!!.tagName,
                 it.releaseAssets.nodes!!.map {
-                    GitHubReleaseAsset(it!!.name, it.url.toString())
+                    GitHubReleaseAsset(it!!.id, it.name, it.url.toString(), it.updatedAt)
                 }.filter { it.version != "" }
             )
-        }.filter { it.nixosVersion != "" && it.hasAnyForArch() }
+        }.filter { it.nixosVersion != "" }
     }
 }

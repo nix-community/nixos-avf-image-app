@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.mkg20001.nixosimage.data.GitHubRelease
+import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.GitHubReleaseClient
 import io.mkg20001.nixosimage.install.ImageInstallMethod
 import io.mkg20001.nixosimage.install.InstallMethods
@@ -20,10 +21,10 @@ class HomeViewModel : ViewModel() {
     }
     val installMethods: LiveData<List<ImageInstallMethod>> = _installMethods
 
-    private val _imageReleases = MutableLiveData<List<GitHubRelease>>().apply {
+    private val _imageReleases = MutableLiveData<List<GitHubReleaseAsset>>().apply {
         value = listOf()
     }
-    val imageRelease: LiveData<List<GitHubRelease>> = _imageReleases
+    val imageRelease: LiveData<List<GitHubReleaseAsset>> = _imageReleases
 
     suspend fun refresh() {
         _state.postValue(ImageViewState.LOADING)
@@ -35,7 +36,7 @@ class HomeViewModel : ViewModel() {
                 _state.postValue(ImageViewState.ERROR)
                 return
             }
-            _imageReleases.postValue(rel)
+            _imageReleases.postValue(rel.map { it.getSupported() }.flatten())
 
             _state.postValue(ImageViewState.READY)
         } catch(e: Exception) {

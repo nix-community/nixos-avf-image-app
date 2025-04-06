@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
             val method = DropdownItem.getItem(methodsDropdown)!!
             val release = DropdownItem.getItem(versionsDropdown)!!
             install(
-                homeViewModel.imageRelease.value!!.filter { it.tagName == release.id }.getOrNull(0)!!.getForArch(),
+                homeViewModel.imageRelease.value!!.filter { it.id == release.id }.getOrNull(0)!!,
                 InstallMethods.getMethod(method.id)!!
             )
         }
@@ -86,10 +86,12 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.imageRelease.observe(viewLifecycleOwner) {
-            var items = it.map { DropdownItem(it.tagName, it.nixosVersion) }
+            var items = it.map {
+                DropdownItem(it.version, it.version + " (" + it.updatedAt + ", " + it.arch + ")")
+            }
 
             if (items.isEmpty()) {
-                items = listOf(DropdownItem(true, getString(R.string.loading)))
+                items = listOf(DropdownItem(true, getString(R.string.no_compat)))
             }
 
             DropdownItem.setItems(requireContext(), items, versionsDropdown)

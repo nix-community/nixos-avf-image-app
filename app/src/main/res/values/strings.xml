@@ -20,4 +20,5 @@
     <string name="install">Install</string>
     <string name="refresh">Refresh</string>
     <string name="loading">(loading)</string>
+    <string name="no_compat">(no compatible images found)</string>
 </resources>
