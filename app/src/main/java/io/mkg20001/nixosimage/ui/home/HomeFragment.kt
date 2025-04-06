@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.imageRelease.observe(viewLifecycleOwner) {
             var items = it.map {
-                DropdownItem(it.version, it.version + " (" + it.updatedAt + ", " + it.arch + ")")
+                DropdownItem(it.id, it.version + " (" + it.updatedAt + ", " + it.arch + ")")
             }
 
             if (items.isEmpty()) {
