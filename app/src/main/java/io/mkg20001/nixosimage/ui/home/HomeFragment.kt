@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.installMethods.observe(viewLifecycleOwner) {
-            var items = it.map { DropdownItem(it.id, it.displayString) }
+            var items = it.map { DropdownItem(it.id, getString(it.display)) }
 
             if (items.isEmpty()) {
                 items = listOf(DropdownItem(true, resources.getString(R.string.no_method)))
@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
             var items = it.map { DropdownItem(it.tagName, it.nixosVersion) }
 
             if (!items.isEmpty()) {
-                items = listOf(DropdownItem(true, resources.getString(R.string.loading)))
+                items = listOf(DropdownItem(true, getString(R.string.loading)))
             }
 
             DropdownItem.setItems(requireContext(), items, versionsDropdown)

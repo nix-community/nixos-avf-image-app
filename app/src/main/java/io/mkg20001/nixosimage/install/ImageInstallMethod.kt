@@ -2,7 +2,7 @@ package io.mkg20001.nixosimage.install
 
 interface ImageInstallMethod {
     val id: String
-    val displayString: String
+    val display: Int
 
     fun isAvailable(): Boolean
     fun installImage (image: String)
