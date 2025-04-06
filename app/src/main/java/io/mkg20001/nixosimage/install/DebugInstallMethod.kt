@@ -1,12 +1,14 @@
 package io.mkg20001.nixosimage.install
 
+import android.os.Build
+
 object DebugInstallMethod: ImageInstallMethod {
     override val id = "debug"
 
     override val displayString = "method_debug"
 
     override fun isAvailable(): Boolean {
-        return System.getProperty("ro.debuggable", "0") == "1"
+        return Build.TYPE != null && (Build.TYPE.equals("userdebug") || Build.TYPE.equals("eng"))
     }
 
     override fun installImage(image: String) {

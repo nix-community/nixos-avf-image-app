@@ -21,7 +21,7 @@ Cat: Download
 
 Nav:
 Home ->  Install
-Extra -> Clear up VM data (root)
+Extra -> Clear up VM data (root), Show VM logs (root)
 About -> Licenses, Info
 
 ---

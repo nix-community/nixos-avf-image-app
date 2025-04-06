@@ -5,6 +5,8 @@
     <string name="title_notifications">About/Licenses</string>
 
     <string name="introduction">NixOS Image Installer will help you download and install the NixOS Image for the Android Terminal app</string>
+    <string name="introduction_loading">Loading NixOS AVF Image versions…</string>
+    <string name="introduction_error">Failed to fetch NixOS AVF Image versions!</string>
 
     <string name="install_task">Task:</string>
     <string name="install_version">Version:</string>
@@ -14,4 +16,5 @@
 
     <string name="method_magisk">Install using Magisk</string>
     <string name="method_debug">Install using Terminal Debug mode</string>
+    <string name="install">Install</string>
 </resources>

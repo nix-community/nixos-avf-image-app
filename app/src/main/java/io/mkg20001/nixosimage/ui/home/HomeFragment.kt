@@ -1,5 +1,6 @@
 package io.mkg20001.nixosimage.ui.home
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import io.mkg20001.nixosimage.MainActivity
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
 import io.mkg20001.nixosimage.install.ImageInstallMethod
+import android.widget.ArrayAdapter
 
 
 class HomeFragment : Fragment() {
@@ -38,10 +40,25 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+        val methodsDropdown = binding.installMethod
+        homeViewModel.installMethods.observe(viewLifecycleOwner) {
+            var items = it.map { it.displayString }
+
+            if (items.isEmpty()) {
+                items = listOf("No install methods found")
+            }
+
+            val adapter = ArrayAdapter(this.requireContext(), R.layout.simple_spinner_item, items)
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            methodsDropdown.adapter = adapter
+        }
+
+
         return root
     }
 
-    fun bla(r: GitHubReleaseAsset, m: ImageInstallMethod) {
+    private fun install(r: GitHubReleaseAsset, m: ImageInstallMethod) {
         val intent: Intent = Intent(
             this.context,
             Install::class.java

@@ -10,25 +10,40 @@
         android:id="@+id/text_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="102dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintBottom_toTopOf="@+id/install_method"
+        tools:layout_editor_absoluteX="8dp" />
 
     <Spinner
         android:id="@+id/install_method"
-        android:layout_width="match_parent"
+        android:layout_width="409dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="76dp" />
+        app:layout_constraintBottom_toTopOf="@+id/nixos_version"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <Spinner
+        android:id="@+id/nixos_version"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="227dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="319dp"
+        android:text="@string/install"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
