@@ -26,15 +26,16 @@ class HomeViewModel : ViewModel() {
     val imageRelease: LiveData<List<GitHubRelease>> = _imageReleases
 
     suspend fun refresh() {
-        _state.value = ImageViewState.LOADING
+        _state.postValue(ImageViewState.LOADING)
 
         try {
-            _installMethods.value = InstallMethods.availableMethods()
-            _imageReleases.value = GitHubReleaseClient.getReleases()
+            _installMethods.postValue(InstallMethods.availableMethods())
+            _imageReleases.postValue(GitHubReleaseClient.getReleases())
 
-            _state.value = ImageViewState.READY
+            _state.postValue(ImageViewState.READY)
         } catch(e: Exception) {
-            _state.value = ImageViewState.ERROR
+            println(e)
+            _state.postValue(ImageViewState.ERROR)
         }
 
     }

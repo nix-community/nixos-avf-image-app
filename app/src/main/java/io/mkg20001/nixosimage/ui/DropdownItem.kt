@@ -22,5 +22,14 @@ class DropdownItem(val id: String, val displayText: String) {
             adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             dropdown.adapter = adapter
         }
+
+        fun getItem(dropdown: Spinner): DropdownItem? {
+            return dropdown.selectedItem as DropdownItem?
+        }
+
+        fun selectedAndNotPlaceholder(dropdown: Spinner): Boolean {
+            val item = getItem(dropdown)
+            return item != null && !item.placeholder
+        }
     }
 }
