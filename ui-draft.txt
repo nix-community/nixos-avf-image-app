@@ -21,6 +21,7 @@ Cat: Download
 
 Nav:
 Home ->  Install
+Extra -> Clear up VM data (root)
 About -> Licenses, Info
 
 ---
@@ -43,3 +44,5 @@ Architecture: <device architecture>
 [ progress bar ]
 
 when done downloading install then open terminal
+
+---

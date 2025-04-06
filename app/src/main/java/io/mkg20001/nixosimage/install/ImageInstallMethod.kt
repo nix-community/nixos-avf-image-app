@@ -19,4 +19,7 @@ object InstallMethods {
     fun availableMethods(): List<ImageInstallMethod> {
         return methods.filter { it.isAvailable() }
     }
+    fun getMethod(id: String): ImageInstallMethod? {
+        return methods.filter { it.id == id }.getOrNull(0)
+    }
 }

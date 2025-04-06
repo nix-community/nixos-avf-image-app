@@ -3,11 +3,11 @@ package io.mkg20001.nixosimage.install
 object MagiskInstallMethod: ImageInstallMethod {
     override val id = "magisk"
 
-    override val displayString = "method.magisk"
+    override val displayString = "method_magisk"
 
     override fun isAvailable(): Boolean {
         // TODO: detect magisk
-        return true
+        return false
     }
 
     override fun installImage(image: String) {

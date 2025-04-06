@@ -12,6 +12,7 @@ import io.mkg20001.nixosimage.Install
 import io.mkg20001.nixosimage.MainActivity
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
+import io.mkg20001.nixosimage.install.ImageInstallMethod
 
 
 class HomeFragment : Fragment() {
@@ -40,13 +41,14 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    fun bla(r: GitHubReleaseAsset) {
+    fun bla(r: GitHubReleaseAsset, m: ImageInstallMethod) {
         val intent: Intent = Intent(
-            MainActivity,
+            this.context,
             Install::class.java
         )
         val b = Bundle()
         b.putSerializable("image", r)
+        b.putString("method", m.id)
         intent.putExtras(b)
         startActivity(intent)
     }
