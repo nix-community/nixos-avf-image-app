@@ -30,7 +30,12 @@ class HomeViewModel : ViewModel() {
 
         try {
             _installMethods.postValue(InstallMethods.availableMethods())
-            _imageReleases.postValue(GitHubReleaseClient.getReleases())
+            val rel = GitHubReleaseClient.getReleases()
+            if (rel == null) {
+                _state.postValue(ImageViewState.ERROR)
+                return
+            }
+            _imageReleases.postValue(rel)
 
             _state.postValue(ImageViewState.READY)
         } catch(e: Exception) {

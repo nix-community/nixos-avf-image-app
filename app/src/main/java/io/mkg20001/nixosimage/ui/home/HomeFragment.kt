@@ -15,6 +15,7 @@ import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
 import io.mkg20001.nixosimage.install.ImageInstallMethod
+import io.mkg20001.nixosimage.install.InstallMethods
 import io.mkg20001.nixosimage.ui.DropdownItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -59,6 +60,21 @@ class HomeFragment : Fragment() {
 
             methodsDropdown.isEnabled = it === ImageViewState.READY
             versionsDropdown.isEnabled = it === ImageViewState.READY
+        }
+
+        refreshBtn.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                homeViewModel.refresh()
+            }
+        }
+
+        installBtn.setOnClickListener { // is only enabled when everything is ok
+            val method = DropdownItem.getItem(methodsDropdown)!!
+            val release = DropdownItem.getItem(versionsDropdown)!!
+            install(
+                homeViewModel.imageRelease.value!!.filter { it.tagName == release.id }.getOrNull(0)!!.getForArch(),
+                InstallMethods.getMethod(method.id)!!
+            )
         }
 
         homeViewModel.installMethods.observe(viewLifecycleOwner) {

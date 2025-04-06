@@ -36,7 +36,7 @@ class DropdownItem(val id: String, val displayText: String) {
         }
 
         fun onChange(dropdown: Spinner, handler: (item: DropdownItem?) -> Unit) {
-            dropdown.setOnItemSelectedListener(object : OnItemSelectedListener {
+            dropdown.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(
                     parentView: AdapterView<*>?,
                     selectedItemView: View?,
@@ -49,7 +49,7 @@ class DropdownItem(val id: String, val displayText: String) {
                 override fun onNothingSelected(parentView: AdapterView<*>?) {
                     handler(getItem(dropdown))
                 }
-            })
+            }
         }
     }
 }

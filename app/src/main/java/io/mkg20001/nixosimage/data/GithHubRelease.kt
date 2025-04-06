@@ -19,8 +19,16 @@ data class GitHubRelease constructor(
     init {
         val res = regexTag.matchEntire(tagName)
         if (res != null) {
-            nixosVersion = res.groups.get("version").toString()
+            nixosVersion = res.groups["version"].toString()
         }
+    }
+
+    fun hasAnyForArch(): Boolean {
+        return assets.any { it.isForCurrentArch() }
+    }
+
+    fun getForArch(): GitHubReleaseAsset {
+        return assets.first { it.isForCurrentArch() }
     }
 }
 
@@ -35,9 +43,13 @@ data class GitHubReleaseAsset(
     init {
         val res = regexImage.matchEntire(name)
         if (res != null) {
-            version = res.groups.get("version").toString()
-            arch = res.groups.get("arch").toString()
+            version = res.groups["version"].toString()
+            arch = res.groups["arch"].toString()
         }
+    }
+
+    fun isForCurrentArch(): Boolean {
+        TODO("d")
     }
 }
 
@@ -50,8 +62,13 @@ val apolloClient = ApolloClient.Builder()
     .build()
 
 object GitHubReleaseClient {
-    suspend fun getReleases(): List<GitHubRelease> {
+    suspend fun getReleases(): List<GitHubRelease>? {
         val resp = apolloClient.query(GetReleasesQuery()).execute()
+
+        if (resp.exception != null) {
+            println(resp.exception)
+            return null
+        }
 
         return resp.data!!.repository!!.releases.nodes!!.map {
             GitHubRelease(
@@ -60,6 +77,6 @@ object GitHubReleaseClient {
                     GitHubReleaseAsset(it!!.name, it.url.toString())
                 }.filter { it.version != "" }
             )
-        }.filter { it.nixosVersion != "" }
+        }.filter { it.nixosVersion != "" && it.hasAnyForArch() }
     }
 }
