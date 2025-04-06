@@ -2,6 +2,9 @@ package io.mkg20001.nixosimage.ui
 
 import android.R as R
 import android.content.Context
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 
@@ -30,6 +33,23 @@ class DropdownItem(val id: String, val displayText: String) {
         fun selectedAndNotPlaceholder(dropdown: Spinner): Boolean {
             val item = getItem(dropdown)
             return item != null && !item.placeholder
+        }
+
+        fun onChange(dropdown: Spinner, handler: (item: DropdownItem?) -> Unit) {
+            dropdown.setOnItemSelectedListener(object : OnItemSelectedListener {
+                override fun onItemSelected(
+                    parentView: AdapterView<*>?,
+                    selectedItemView: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    handler(getItem(dropdown))
+                }
+
+                override fun onNothingSelected(parentView: AdapterView<*>?) {
+                    handler(getItem(dropdown))
+                }
+            })
         }
     }
 }

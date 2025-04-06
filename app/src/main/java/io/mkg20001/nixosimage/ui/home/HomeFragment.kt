@@ -87,35 +87,8 @@ class HomeFragment : Fragment() {
                     DropdownItem.selectedAndNotPlaceholder(versionsDropdown)
         }
 
-        methodsDropdown.setOnItemSelectedListener(object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
-            ) {
-                updateInstall()
-            }
-
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                updateInstall()
-            }
-        })
-
-        versionsDropdown.setOnItemSelectedListener(object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
-            ) {
-                updateInstall()
-            }
-
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-                updateInstall()
-            }
-        })
+        DropdownItem.onChange(versionsDropdown) { updateInstall() }
+        DropdownItem.onChange(methodsDropdown) { updateInstall() }
 
         CoroutineScope(Dispatchers.IO).launch {
             homeViewModel.refresh()
