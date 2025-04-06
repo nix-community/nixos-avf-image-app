@@ -1,23 +1,44 @@
 package io.mkg20001.nixosimage.data
 
-import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.network.okHttpClient
-import kotlinx.coroutines.delay
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import com.apollographql.apollo.api.ApolloResponse
-import com.apollographql.apollo.api.Optional
+import io.mkg20001.nixosimage.GetReleasesQuery
 
-data class GithHubRelease(
-    val tagName: String
-)
+val regexTag = Regex("^nixos-(?<version>[a-z0-9.]+)$")
+val regexImage = Regex("^image-(?<version>[a-z0-9.]+)-(?<arch>[a-z0-9_-]+).tar.gz$")
 
-data class GitHubReleaseAsset(
+class GitHubRelease constructor(
+    val tagName: String,
+    val assets: List<GitHubReleaseAsset>
+) {
+    var nixosVersion = ""
+
+    // nixos-24.11
+    init {
+        val res = regexTag.matchEntire(tagName)
+        if (res != null) {
+            nixosVersion = res.groups.get("version").toString()
+        }
+    }
+}
+
+class GitHubReleaseAsset constructor(
     val name: String,
-    var url: String
-)
+    var url: String,
+) {
+    var arch = ""
+    var version = ""
+
+    // image-unstable-aarch64.tar.gz
+    init {
+        val res = regexImage.matchEntire(name)
+        if (res != null) {
+            version = res.groups.get("version").toString()
+            arch = res.groups.get("arch").toString()
+        }
+    }
+}
 
 
 val apolloClient = ApolloClient.Builder()
@@ -28,8 +49,17 @@ val apolloClient = ApolloClient.Builder()
     )
     .build()
 
-object GitHubRelease {
-    fun get() {
-        // apolloClient.query(GetReleasesQuery)
+object GitHubReleaseClient {
+    suspend fun getReleases(): List<GitHubRelease> {
+        val resp = apolloClient.query(GetReleasesQuery()).execute()
+
+        return resp.data!!.repository!!.releases.nodes!!.map {
+            GitHubRelease(
+                it!!.tagName,
+                it.releaseAssets.nodes!!.map {
+                    GitHubReleaseAsset(it!!.name, it.url.toString())
+                }.filter { it.version != "" }
+            )
+        }.filter { it.nixosVersion != "" }
     }
 }
