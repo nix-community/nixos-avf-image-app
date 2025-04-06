@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "io.mkg20001.nixosimage"
-        minSdk = 36
+        minSdk = 35
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -51,4 +51,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // graphql
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.apollographql.apollo3:apollo-runtime:3.8.5")
 }

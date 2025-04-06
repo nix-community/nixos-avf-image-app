@@ -1,0 +1,18 @@
+# Schema: https://docs.github.com/en/graphql/overview/public-schema
+
+query GetReleases($bla: String) {
+  repository(owner: "nix-community", name: "nixos-avf") {
+    releases(first: 20) {
+      nodes {
+        tagName
+
+        releaseAssets(first: 20) {
+          nodes {
+            name
+            url
+          }
+        }
+      }
+    }
+  }
+}

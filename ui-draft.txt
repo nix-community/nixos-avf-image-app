@@ -1,0 +1,45 @@
+nixos image app:
+
+NixOS Image Installer will help you download and install the NixOS Image for the Android Terminal app
+
+Cat: Terminal App
+ 
+[ btn enable dev settings ]
+
+[ btn enable terminal app ]
+
+Cat: Download
+
+[ drop down select nixos version ]
+
+[ drop down select install method ]
+
+[ install button ]
+
+
+--------
+
+Nav:
+Home ->  Install
+About -> Licenses, Info
+
+---
+
+
+when press install button
+
+open activity via intent
+with version and arch
+
+activity:
+----
+
+Task: Downloading NixOS image
+
+Version: <nixos version>
+
+Architecture: <device architecture>
+
+[ progress bar ]
+
+when done downloading install then open terminal
