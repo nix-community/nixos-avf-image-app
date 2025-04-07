@@ -16,9 +16,9 @@
 
     <string name="method_magisk">Install using Magisk</string>
     <string name="method_debug">Install using Terminal Debug mode</string>
-    <string name="no_method">"No install methods found"</string>
+    <string name="no_method">[No install methods found]</string>
     <string name="install">Install</string>
     <string name="refresh">Refresh</string>
     <string name="loading">(loading)</string>
-    <string name="no_compat">(no compatible images found)</string>
+    <string name="no_compat">[No compatible images found]</string>
 </resources>
