@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="200"
+   height="200"
+   viewBox="0 0 200 200"
+   fill="none"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="gradient.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.6225"
+     inkscape:cx="400"
+     inkscape:cy="99.845917"
+     inkscape:window-width="1503"
+     inkscape:window-height="977"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
+  <rect
+     width="200"
+     height="200"
+     fill="url(#gradient-fill)"
+     id="rect1" />
+  <defs
+     id="defs12">
+    <linearGradient
+       id="gradient-fill"
+       x1="0"
+       y1="0"
+       x2="200"
+       y2="200"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#52baff"
+         id="stop1" />
+      <stop
+         offset="0.09090909090909091"
+         stop-color="#3caffe"
+         id="stop2" />
+      <stop
+         offset="0.18181818181818182"
+         stop-color="#26a3fc"
+         id="stop3" />
+      <stop
+         offset="0.2727272727272727"
+         stop-color="#1997f7"
+         id="stop4" />
+      <stop
+         offset="0.36363636363636365"
+         stop-color="#188bee"
+         id="stop5" />
+      <stop
+         offset="0.45454545454545453"
+         stop-color="#187fe6"
+         id="stop6" />
+      <stop
+         offset="0.5454545454545454"
+         stop-color="#1873de"
+         id="stop7" />
+      <stop
+         offset="0.6363636363636364"
+         stop-color="#1a67d6"
+         id="stop8" />
+      <stop
+         offset="0.7272727272727273"
+         stop-color="#1c5acd"
+         id="stop9" />
+      <stop
+         offset="0.8181818181818182"
+         stop-color="#1e4dc5"
+         id="stop10" />
+      <stop
+         offset="0.9090909090909091"
+         stop-color="#2241b8"
+         id="stop11" />
+      <stop
+         offset="1"
+         stop-color="#2537a8"
+         id="stop12" />
+    </linearGradient>
+  </defs>
+</svg>
