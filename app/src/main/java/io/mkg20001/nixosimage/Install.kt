@@ -70,11 +70,11 @@ class Install : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            // TODO: download to cache, re-use downloads on failure and also include methods needing cleanup properly
+            // TODO: include methods needing cleanup properly
             val file = downloadFile(
                 context = applicationContext,
                 fileUrl = asset!!.url,
-                fileName = "images.tar.gz"
+                fileName = "image-cached-" + asset!!.id + "@" + asset!!.updatedAt
             ) { progress ->
                 if (_progress.value != progress) {
                     Log.d("Download", "Progress: $progress%")

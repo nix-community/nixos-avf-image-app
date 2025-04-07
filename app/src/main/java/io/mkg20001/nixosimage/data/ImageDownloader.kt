@@ -56,13 +56,23 @@ suspend fun downloadFile(
             val response = client.newCall(request).execute()
             val body = response.body ?: return@withContext null
 
+            val file = File(context.cacheDir, fileName)
+
+            // re-use already existing file
+            if (file.exists() && body.contentLength() == file.length()) {
+                onProgress(100) // update ui
+                return@withContext file
+            }
+
+            // TODO: currently we're not re-using half-downloaded files.
+            // this could be implemented aswell, athough i'm not sure if gh release supports that.
+
             val progressBody = ProgressResponseBody(body) { bytesRead, contentLength, _ ->
                 val percent = (100 * bytesRead / contentLength).toInt()
                 onProgress(percent)
             }
 
             val inputStream = progressBody.byteStream()
-            val file = File(context.getExternalFilesDir(null), fileName)
             val outputStream = FileOutputStream(file)
 
             inputStream.use { input ->
