@@ -1,11 +1,14 @@
 package io.mkg20001.nixosimage.install
 
+import android.content.Context
+import java.io.File
+
 interface ImageInstallMethod {
     val id: String
     val display: Int
 
     fun isAvailable(): Boolean
-    fun installImage (image: String)
+    fun installImage (context: Context, image: File): Boolean
     val needsCleanup: Boolean
         get() = false
 

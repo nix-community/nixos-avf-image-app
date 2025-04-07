@@ -1,6 +1,8 @@
 package io.mkg20001.nixosimage.install
 
+import android.content.Context
 import io.mkg20001.nixosimage.R
+import java.io.File
 
 object MagiskInstallMethod: ImageInstallMethod {
     override val id = "magisk"
@@ -12,9 +14,12 @@ object MagiskInstallMethod: ImageInstallMethod {
         return false
     }
 
-    override fun installImage(image: String) {
-        DebugInstallMethod.installImage(image)
+    override fun installImage(context: Context, image: File): Boolean {
+        if (!DebugInstallMethod.installImage(context, image)) {
+            return false
+        }
         // TODO: do "magisk resetprop ro.debuggable 1; stop; start;"
+        return false
     }
 
     override val needsCleanup: Boolean = true
