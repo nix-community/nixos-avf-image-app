@@ -1,6 +1,7 @@
 package io.mkg20001.nixosimage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -12,11 +13,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
+import io.mkg20001.nixosimage.data.downloadFile
 import io.mkg20001.nixosimage.databinding.ActivityInstallBinding
 import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
 import io.mkg20001.nixosimage.install.ImageInstallMethod
 import io.mkg20001.nixosimage.install.InstallMethods
 import io.mkg20001.nixosimage.ui.home.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class Install : AppCompatActivity() {
@@ -64,8 +69,31 @@ class Install : AppCompatActivity() {
             binding.progress.progress = it
         }
 
-        // TODO: downloaded = download(r.url)
-        // TODO: method.installImage(downloaded)
+        lifecycleScope.launch {
+            // TODO: download to cache, re-use downloads on failure and also include methods needing cleanup properly
+            val file = downloadFile(
+                context = applicationContext,
+                fileUrl = asset!!.url,
+                fileName = "images.tar.gz"
+            ) { progress ->
+                if (_progress.value != progress) {
+                    Log.d("Download", "Progress: $progress%")
+                    // You can update UI with LiveData or State here
+                    _progress.postValue(progress)
+                }
+            }
+
+            if (file != null) {
+                Log.d("Download", "File downloaded: ${file.absolutePath}")
+
+                Log.d("Install", "Installing")
+                updateStatus(R.string.install_step_installing)
+
+                method!!.installImage(file.absolutePath)
+            } else {
+                Log.e("Download", "Failed to download file")
+            }
+        }
 
         doInstall()
     }
