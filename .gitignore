@@ -13,4 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-app/src/main/java/io/mkg20001/nixosimage/data/Auth.kt
+/app/src/main/java/io/mkg20001/nixosimage/data/Auth.kt
+/app/release

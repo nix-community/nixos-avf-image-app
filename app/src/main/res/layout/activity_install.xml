@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="48dp"
+    android:orientation="vertical"
     tools:context=".Install">
 
-    <EditText
+    <TextView
         android:id="@+id/status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="74dp" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        />
 
     <ProgressBar
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="169dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        />
+</LinearLayout>
