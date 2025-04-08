@@ -3,6 +3,7 @@ package io.mkg20001.nixosimage
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.downloadFile
 import io.mkg20001.nixosimage.databinding.ActivityInstallBinding
+import io.mkg20001.nixosimage.extra.ExtraImageUtils
 import io.mkg20001.nixosimage.install.ImageInstallMethod
 import io.mkg20001.nixosimage.install.InstallMethods
 import kotlinx.coroutines.launch
@@ -64,6 +66,8 @@ class Install : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
+            val extra = ExtraImageUtils()
+
             // TODO: include methods needing cleanup properly
             Log.i("Download", "Downloading image")
 
@@ -107,6 +111,10 @@ class Install : AppCompatActivity() {
                 fun installFail() {
                     Log.e("Install", "failed")
                     errorOut()
+                }
+
+                if (!extra.cleanupImage()) {
+                    Toast.makeText(applicationContext, R.string.remove_existing_image, Toast.LENGTH_LONG).show()
                 }
 
                 try {

@@ -53,14 +53,16 @@ object MagiskInstallMethod: ImageInstallMethod {
         // The main shell is now constructed and cached
         executeWithRoot("mkdir -p ${DebugInstallMethod.getSdcardPathForTesting().pathString}")
         executeWithRoot("cp ${image.path} ${DebugInstallMethod.fromSdCard().pathString}")
+        executeWithRoot("rm -rfv /data/data/com.android.virtualization.terminal/{files/nixos.log,files/debian.log,files/linux,vm/nixos,vm/debian}")
         executeWithRoot("magisk resetprop ro.debuggable 1")
-        executeWithRoot("stop")
-        executeWithRoot("start")
+        // This will likely tear down the entire app, so we just start the activity right after
+        executeWithRoot("stop; start; am start -n com.android.virtualization.terminal/.InstallerActivity")
 
         return true
     }
 
     override val needsExternalStorage: Boolean = false
+    override val needsLaunchTerminalAfterwards: Boolean = false
     override val needsCleanup: Boolean = true
 
     override fun doCleanup() {
