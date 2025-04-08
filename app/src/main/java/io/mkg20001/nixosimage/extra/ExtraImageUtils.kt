@@ -4,6 +4,11 @@ import android.util.Log
 import com.topjohnwu.superuser.Shell
 
 class ExtraImageUtils constructor() {
+    companion object {
+        val RM_EXISTING = "rm -rfv /data/data/com.android.virtualization.terminal/{files/nixos.log,files/debian.log,files/linux,vm/nixos,vm/debian}"
+        val LAUNCH_INSTALLER = "am start -n com.android.virtualization.terminal/.InstallerActivity"
+    }
+
     val shell = Shell.getShell()
     var hasRoot = shell.isRoot
 
@@ -25,10 +30,10 @@ class ExtraImageUtils constructor() {
     }
 
     fun cleanupImage(): Boolean {
-        return executeWithRoot("rm -rfv /data/data/com.android.virtualization.terminal/{files/nixos.log,files/debian.log,files/linux,vm/nixos,vm/debian}")
+        return executeWithRoot(RM_EXISTING)
     }
 
     fun launchInstaller(): Boolean {
-        return executeWithRoot("am start -n com.android.virtualization.terminal/.InstallerActivity")
+        return executeWithRoot(LAUNCH_INSTALLER)
     }
 }

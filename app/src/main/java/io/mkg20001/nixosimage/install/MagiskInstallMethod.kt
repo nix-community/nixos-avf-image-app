@@ -6,6 +6,7 @@ import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.Shell.GetShellCallback
 import io.mkg20001.nixosimage.BuildConfig
 import io.mkg20001.nixosimage.R
+import io.mkg20001.nixosimage.extra.ExtraImageUtils
 import java.io.File
 import kotlin.io.path.pathString
 
@@ -53,10 +54,10 @@ object MagiskInstallMethod: ImageInstallMethod {
         // The main shell is now constructed and cached
         executeWithRoot("mkdir -p ${DebugInstallMethod.getSdcardPathForTesting().pathString}")
         executeWithRoot("cp ${image.path} ${DebugInstallMethod.fromSdCard().pathString}")
-        executeWithRoot("rm -rfv /data/data/com.android.virtualization.terminal/{files/nixos.log,files/debian.log,files/linux,vm/nixos,vm/debian}")
+        executeWithRoot(ExtraImageUtils.RM_EXISTING)
         executeWithRoot("magisk resetprop ro.debuggable 1")
         // This will likely tear down the entire app, so we just start the activity right after
-        executeWithRoot("stop; start; am start -n com.android.virtualization.terminal/.InstallerActivity")
+        executeWithRoot("stop; start; " + ExtraImageUtils.LAUNCH_INSTALLER)
 
         return true
     }
