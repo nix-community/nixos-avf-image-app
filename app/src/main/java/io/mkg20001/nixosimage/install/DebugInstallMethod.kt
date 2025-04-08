@@ -5,6 +5,9 @@ import android.os.Build
 import android.os.Environment
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.copyFile
+import io.mkg20001.nixosimage.data.mkdirp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okio.IOException
 import java.io.File
 import java.nio.file.Path
@@ -22,16 +25,21 @@ object DebugInstallMethod: ImageInstallMethod {
     // mostly verbatim from packages/modules/Virtualization/ android/TerminalApp/java/com/android/virtualization/terminal/ImageArchive.kt
     private const val DIR_IN_SDCARD = "linux"
     private const val ARCHIVE_NAME = "images.tar.gz"
-    private fun getSdcardPathForTesting(): Path {
+    fun getSdcardPathForTesting(): Path {
         return Environment.getExternalStoragePublicDirectory(DIR_IN_SDCARD).toPath()
     }
-    private fun fromSdCard(): Path {
+    fun fromSdCard(): Path {
         return getSdcardPathForTesting().resolve(ARCHIVE_NAME)
     }
 
-    override fun installImage(context: Context, image: File): Boolean {
+    override suspend fun installImage(context: Context, image: File): Boolean {
         try {
-            copyFile(image, fromSdCard().toFile())
+            if (!mkdirp(getSdcardPathForTesting().toAbsolutePath().toString())) {
+                return false
+            }
+            withContext(Dispatchers.IO) {
+                copyFile(image, fromSdCard().toFile())
+            }
         } catch (e: IOException) {
             e.printStackTrace()
             return false

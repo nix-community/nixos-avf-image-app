@@ -1,11 +1,15 @@
 package io.mkg20001.nixosimage.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.mkg20001.nixosimage.Install
@@ -114,6 +118,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun install(r: GitHubReleaseAsset, m: ImageInstallMethod) {
+        if (m.needsExternalStorage) {
+            if (!Environment.isExternalStorageManager()) {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.data = Uri.parse("package:" + requireContext().packageName)
+                requireContext().startActivity(intent)
+                Toast.makeText(context, getString(R.string.toast_external_storage), Toast.LENGTH_LONG).show()
+                return
+            }
+        }
+
         val intent: Intent = Intent(
             this.context,
             Install::class.java

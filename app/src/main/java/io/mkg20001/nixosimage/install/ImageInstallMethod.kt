@@ -8,9 +8,11 @@ interface ImageInstallMethod {
     val display: Int
 
     fun isAvailable(): Boolean
-    fun installImage (context: Context, image: File): Boolean
+    suspend fun installImage (context: Context, image: File): Boolean
     val needsCleanup: Boolean
         get() = false
+    val needsExternalStorage: Boolean
+        get() = true
 
     fun doCleanup() {
         throw RuntimeException("not applicable")

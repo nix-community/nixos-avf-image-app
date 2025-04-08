@@ -22,4 +22,6 @@
     <string name="loading">(loading)</string>
     <string name="no_compat">[No compatible images found]</string>
     <string name="short_name">NixOS Image for Terminal</string>
+
+    <string name="toast_external_storage">Please grant external storage for install and click "Install" again</string>
 </resources>
