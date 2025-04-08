@@ -1,5 +1,6 @@
 package io.mkg20001.nixosimage
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -86,6 +87,21 @@ class Install : AppCompatActivity() {
 
                 fun installOK() {
                     Log.i("Install", "ok")
+                    if (method!!.needsLaunchTerminalAfterwards) {
+                        val packageName = "com.android.virtualization.terminal"
+                        val className = "com.android.virtualization.terminal.MainActivity"
+
+                        val intent = Intent().apply {
+                            setClassName(packageName, className)
+                        }
+
+                        try {
+                            startActivity(intent)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            // Handle the case when the target activity is not found or other issues
+                        }
+                    }
                 }
 
                 fun installFail() {

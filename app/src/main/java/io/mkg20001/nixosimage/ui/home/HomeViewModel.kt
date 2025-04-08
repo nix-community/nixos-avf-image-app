@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
     val state: LiveData<ImageViewState> = _state
 
     private val _installMethods = MutableLiveData<List<ImageInstallMethod>>().apply {
-        value = InstallMethods.availableMethods()
+        value = listOf()
     }
     val installMethods: LiveData<List<ImageInstallMethod>> = _installMethods
 

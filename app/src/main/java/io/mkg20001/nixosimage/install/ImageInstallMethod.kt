@@ -13,6 +13,8 @@ interface ImageInstallMethod {
         get() = false
     val needsExternalStorage: Boolean
         get() = true
+    val needsLaunchTerminalAfterwards: Boolean
+        get() = true
 
     fun doCleanup() {
         throw RuntimeException("not applicable")
