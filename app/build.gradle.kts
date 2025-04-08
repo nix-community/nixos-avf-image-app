@@ -19,7 +19,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("boolean", "ALLOW_ANY_METHOD", "true")
+        }
         release {
+            buildConfigField("boolean", "ALLOW_ANY_METHOD", "false")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -36,11 +40,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -54,6 +58,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.apollo.runtime)
+    implementation(libs.libsu.core)
 
     // graphql
     /* implementation("com.squareup.okhttp3:okhttp:4.10.0")

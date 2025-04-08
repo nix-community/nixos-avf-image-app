@@ -84,12 +84,26 @@ class Install : AppCompatActivity() {
                 Log.i("Install", "Installing")
                 updateStatus(R.string.install_step_installing)
 
-                val success = method!!.installImage(applicationContext, file)
-
-                if (success) {
+                fun installOK() {
                     Log.i("Install", "ok")
-                } else {
+                }
+
+                fun installFail() {
                     Log.e("Install", "failed")
+                    errorOut()
+                }
+
+                try {
+                    val success = method!!.installImage(applicationContext, file)
+
+                    if (success) {
+                        installOK()
+                    } else {
+                        installFail()
+                    }
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                    installFail()
                 }
             } else {
                 Log.e("Download", "Failed to download file")

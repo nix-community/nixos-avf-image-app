@@ -14,9 +14,13 @@ navigationFragmentKtx = "2.6.0"
 navigationUiKtx = "2.6.0"
 apollo = "4.1.1"
 activity = "1.8.0"
+libsu = "6.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
+libsu-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsu" }
+libsu-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsu" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

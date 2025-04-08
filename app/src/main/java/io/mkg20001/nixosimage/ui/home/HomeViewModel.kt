@@ -3,11 +3,11 @@ package io.mkg20001.nixosimage.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.mkg20001.nixosimage.data.GitHubRelease
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.GitHubReleaseClient
 import io.mkg20001.nixosimage.install.ImageInstallMethod
 import io.mkg20001.nixosimage.install.InstallMethods
+import io.mkg20001.nixosimage.BuildConfig
 
 class HomeViewModel : ViewModel() {
 
@@ -30,7 +30,11 @@ class HomeViewModel : ViewModel() {
         _state.postValue(ImageViewState.LOADING)
 
         try {
-            _installMethods.postValue(InstallMethods.availableMethods())
+            if (BuildConfig.ALLOW_ANY_METHOD) {
+                _installMethods.postValue(InstallMethods.methods)
+            } else {
+                _installMethods.postValue(InstallMethods.availableMethods())
+            }
             val rel = GitHubReleaseClient.getReleases()
             if (rel == null) {
                 _state.postValue(ImageViewState.ERROR)

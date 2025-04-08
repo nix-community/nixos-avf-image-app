@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import io.mkg20001.nixosimage.BuildConfig
 import io.mkg20001.nixosimage.Install
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
@@ -80,7 +81,13 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.installMethods.observe(viewLifecycleOwner) {
-            var items = it.map { DropdownItem(it.id, getString(it.display)) }
+            var items = it.map {
+                if (BuildConfig.ALLOW_ANY_METHOD && !it.isAvailable()) {
+                    DropdownItem(it.id, "#DEBUG# " + getString(it.display))
+                } else {
+                    DropdownItem(it.id, getString(it.display))
+                }
+            }
 
             if (items.isEmpty()) {
                 items = listOf(DropdownItem(true, resources.getString(R.string.no_method)))

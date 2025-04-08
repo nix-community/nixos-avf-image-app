@@ -8,6 +8,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.mkg20001.nixosimage.databinding.ActivityMainBinding
+import io.mkg20001.nixosimage.install.initShell
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initShell()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
