@@ -71,7 +71,9 @@ private class AuthorizationInterceptor() : Interceptor {
 }
 
 val apolloClient = ApolloClient.Builder()
-    .serverUrl("https://api.github.com/graphql")
+    .serverUrl("https://nixos-image.mkg20001.io/graphql")
+    // If you want to develop on the server, run "cargo run" and fill in your IP here
+    // .serverUrl("http://192.168.178.69:8000/graphql")
     .okHttpClient(
         OkHttpClient.Builder()
             .addInterceptor(AuthorizationInterceptor())

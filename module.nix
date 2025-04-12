@@ -25,7 +25,7 @@ in
 
       config = mkOption {
         description = "configuration";
-        type = config.type;
+        type = format.type;
       };
 
       openFirewall = mkOption {
