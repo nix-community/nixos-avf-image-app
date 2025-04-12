@@ -6,13 +6,10 @@ import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import io.mkg20001.nixosimage.R
-import io.mkg20001.nixosimage.data.copyFile
 import io.mkg20001.nixosimage.data.mkdirp
-import io.mkg20001.nixosimage.install.DebugInstallMethod.fromSdCard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException
-import org.apache.commons.codec.Resources.getInputStream
 import org.apache.commons.compress.archivers.ArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
@@ -64,7 +61,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
 
         withContext(Dispatchers.IO) {
             Log.i("ReplaceInstall", "Scripts")
-            listOf("replace.sh", "post_setup.sh").forEach {
+            listOf("replace.sh").forEach {
                 val file = File(dir.toFile(), it)
                 assets.open(it).use { input ->
                     file.outputStream().use { output ->

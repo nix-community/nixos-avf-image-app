@@ -30,7 +30,7 @@ step_1() {
 step_2() {
   sudo chmod 777 /dev/vda3
   size=$(du "$IMG_LOC/root_part" | grep -o "[0-9]*")
-  iters=$(( size / ( 1024 * 250 ) + 1 ))
+  iters=$(( size / ( 1024 * 250 ) ))
   for i in $(seq 0 $iters); do
     dd "if=$IMG_LOC/root_part" "of=/dev/vda3" bs=250M count=1 "seek=$i" "skip=$i"
     sync
@@ -57,6 +57,8 @@ step_2() {
 
   sudo rm "$VM_LOC/root_part"
   sudo mv "$VM_LOC/nixos_root" "$VM_LOC/root_part"
+
+  rm -rfv "$IMG_LOC"
 
   sudo reboot
 }
