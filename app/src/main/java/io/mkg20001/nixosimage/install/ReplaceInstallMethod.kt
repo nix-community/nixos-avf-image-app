@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.mkdirp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import okio.IOException
 import org.apache.commons.compress.archivers.ArchiveEntry
@@ -80,7 +81,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
         context: Context,
         image: File,
         assets: AssetManager,
-        progress: MutableLiveData<Int>
+        progress: MutableStateFlow<Int>
     ): Boolean {
 
         val dir = getImageDownloadsDir()
@@ -105,7 +106,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
             installTo(image, dir) {
                 if (progress.value != it) {
                     Log.d(TAG, "Extract progress: $it%")
-                    progress.postValue(it)
+                    progress.tryEmit(it)
                 }
             }
         }

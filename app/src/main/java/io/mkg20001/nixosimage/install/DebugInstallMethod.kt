@@ -9,6 +9,7 @@ import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.copyFile
 import io.mkg20001.nixosimage.data.mkdirp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import okio.IOException
 import java.io.File
@@ -37,7 +38,7 @@ object DebugInstallMethod: ImageInstallMethod {
         context: Context,
         image: File,
         assets: AssetManager,
-        progress: MutableLiveData<Int>
+        progress: MutableStateFlow<Int>
     ): Boolean {
         try {
             if (!mkdirp(getSdcardPathForTesting().toAbsolutePath().toString())) {

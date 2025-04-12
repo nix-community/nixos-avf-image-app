@@ -3,6 +3,7 @@ package io.mkg20001.nixosimage.install
 import android.content.Context
 import android.content.res.AssetManager
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.File
 
 interface ImageInstallMethod {
@@ -14,7 +15,7 @@ interface ImageInstallMethod {
         context: Context,
         image: File,
         assets: AssetManager,
-        progress: MutableLiveData<Int>
+        progress: MutableStateFlow<Int>
     ): Boolean
     val needsCleanup: Boolean
         get() = false

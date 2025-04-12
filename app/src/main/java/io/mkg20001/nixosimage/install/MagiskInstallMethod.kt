@@ -8,6 +8,7 @@ import com.topjohnwu.superuser.Shell
 import io.mkg20001.nixosimage.BuildConfig
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.extra.ExtraImageUtils
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.File
 import kotlin.io.path.pathString
 
@@ -34,7 +35,7 @@ object MagiskInstallMethod: ImageInstallMethod {
         context: Context,
         image: File,
         assets: AssetManager,
-        progress: MutableLiveData<Int>
+        progress: MutableStateFlow<Int>
     ): Boolean {
         val shell = Shell.getShell()
         if (!shell.isRoot) {
