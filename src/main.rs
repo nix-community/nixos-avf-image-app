@@ -58,7 +58,7 @@ pub struct Config {
     pub token: String,
 }
 
-pub fn loadConfig() -> Config {
+pub fn load_config() -> Config {
     // Layer from different sources to build configuration. Order matters!
     let conf = Config::with_layers(&[
         Layer::Yaml(env::current_dir().expect("Failed to get CWD").join("config.yaml")),
@@ -89,7 +89,7 @@ async fn graphql(query: Json<QueryBody>, config: &State<Config>) -> Json<Respons
 
 #[launch]
 fn rocket() -> _ {
-    let config = loadConfig();
+    let config = load_config();
     rocket::build()
         .configure(rocket::Config::figment().merge(("port", config.port)).merge(("address", "::")))
         .manage(config)
