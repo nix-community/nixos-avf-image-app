@@ -118,7 +118,7 @@ class Install : AppCompatActivity() {
                 }
 
                 try {
-                    val success = method!!.installImage(applicationContext, file)
+                    val success = method!!.installImage(applicationContext, file, assets)
 
                     if (success) {
                         installOK()

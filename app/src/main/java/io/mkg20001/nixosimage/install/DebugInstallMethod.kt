@@ -1,6 +1,7 @@
 package io.mkg20001.nixosimage.install
 
 import android.content.Context
+import android.content.res.AssetManager
 import android.os.Build
 import android.os.Environment
 import io.mkg20001.nixosimage.R
@@ -17,7 +18,6 @@ object DebugInstallMethod: ImageInstallMethod {
 
     override val display = R.string.method_debug
 
-
     override fun isAvailable(): Boolean {
         return Build.TYPE != null && (Build.TYPE.equals("userdebug") || Build.TYPE.equals("eng"))
     }
@@ -32,7 +32,7 @@ object DebugInstallMethod: ImageInstallMethod {
         return getSdcardPathForTesting().resolve(ARCHIVE_NAME)
     }
 
-    override suspend fun installImage(context: Context, image: File): Boolean {
+    override suspend fun installImage(context: Context, image: File, assets: AssetManager): Boolean {
         try {
             if (!mkdirp(getSdcardPathForTesting().toAbsolutePath().toString())) {
                 return false

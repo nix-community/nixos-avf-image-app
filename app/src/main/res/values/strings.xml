@@ -16,6 +16,7 @@
 
     <string name="method_magisk">Install using Magisk</string>
     <string name="method_debug">Install using Terminal Debug mode</string>
+    <string name="method_replace">Install using replace script</string>
     <string name="no_method">[No install methods found]</string>
     <string name="install">Install</string>
     <string name="refresh">Refresh</string>
@@ -24,6 +25,7 @@
     <string name="short_name">NixOS Image for Terminal</string>
 
     <string name="toast_external_storage">Please grant external storage for install and click "Install" again</string>
+    <string name="toast_replace_script">Run in Terminal: bash /mnt/shared/image/replace.sh</string>
 
     <string name="remove_existing_image">You may need to remove the existing installation using Settings > Recovery > Remove existing data</string>
 </resources>

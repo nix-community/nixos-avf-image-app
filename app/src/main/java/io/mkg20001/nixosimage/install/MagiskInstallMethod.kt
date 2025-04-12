@@ -1,9 +1,9 @@
 package io.mkg20001.nixosimage.install
 
 import android.content.Context
+import android.content.res.AssetManager
 import android.util.Log
 import com.topjohnwu.superuser.Shell
-import com.topjohnwu.superuser.Shell.GetShellCallback
 import io.mkg20001.nixosimage.BuildConfig
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.extra.ExtraImageUtils
@@ -29,7 +29,7 @@ object MagiskInstallMethod: ImageInstallMethod {
         return Shell.getShell().isRoot
     }
 
-    override suspend fun installImage(context: Context, image: File): Boolean {
+    override suspend fun installImage(context: Context, image: File, assets: AssetManager): Boolean {
         val shell = Shell.getShell()
         if (!shell.isRoot) {
             Log.e("Magisk", "acquired shell is not root, giving up")

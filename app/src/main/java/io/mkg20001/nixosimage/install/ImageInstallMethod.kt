@@ -1,6 +1,7 @@
 package io.mkg20001.nixosimage.install
 
 import android.content.Context
+import android.content.res.AssetManager
 import java.io.File
 
 interface ImageInstallMethod {
@@ -8,7 +9,7 @@ interface ImageInstallMethod {
     val display: Int
 
     fun isAvailable(): Boolean
-    suspend fun installImage (context: Context, image: File): Boolean
+    suspend fun installImage (context: Context, image: File, assets: AssetManager): Boolean
     val needsCleanup: Boolean
         get() = false
     val needsExternalStorage: Boolean
@@ -22,7 +23,7 @@ interface ImageInstallMethod {
 }
 
 object InstallMethods {
-    val methods = listOf(DebugInstallMethod, MagiskInstallMethod)
+    val methods = listOf(DebugInstallMethod, MagiskInstallMethod, ReplaceInstallMethod)
     fun availableMethods(): List<ImageInstallMethod> {
         return methods.filter { it.isAvailable() }
     }
