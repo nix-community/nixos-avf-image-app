@@ -41,11 +41,11 @@ object ReplaceInstallMethod: ImageInstallMethod {
     fun installTo(source: File, dir: Path, onProgress: (Int) -> Unit) {
         Log.i(TAG, "Extracting. source: $source, destination: $dir")
 
-        val totalSize = source.length().toDouble()
-        var bytesRead = 0L
-
         val progressStream = source.inputStream().let { baseStream ->
             object : FilterInputStream(baseStream) {
+                val totalSize = source.length().toDouble()
+                var bytesRead = 0L
+
                 override fun read(): Int = super.read().also {
                     if (it != -1) updateProgress(1)
                 }
