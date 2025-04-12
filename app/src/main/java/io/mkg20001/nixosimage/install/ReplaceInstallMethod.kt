@@ -5,6 +5,7 @@ import android.content.res.AssetManager
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.mkdirp
 import kotlinx.coroutines.Dispatchers
@@ -14,14 +15,18 @@ import org.apache.commons.compress.archivers.ArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
 import java.io.File
+import java.io.FilterInputStream
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
 object ReplaceInstallMethod: ImageInstallMethod {
+    val TAG = "ReplaceInstall"
+
     override val id = "replace"
 
     override val display = R.string.method_replace
+    override val needsImageClean: Boolean = false
 
     override fun isAvailable(): Boolean {
         // no special requirements
@@ -33,9 +38,30 @@ object ReplaceInstallMethod: ImageInstallMethod {
     }
 
     @Throws(IOException::class)
-    fun installTo(source: File, dir: Path) {
-        Log.i("ReplaceInstall", "Extracting. source: $source, destination: $dir")
-        TarArchiveInputStream(GzipCompressorInputStream(source.inputStream())).use { tarStream ->
+    fun installTo(source: File, dir: Path, onProgress: (Int) -> Unit) {
+        Log.i(TAG, "Extracting. source: $source, destination: $dir")
+
+        val totalSize = source.length().toDouble()
+        var bytesRead = 0L
+
+        val progressStream = source.inputStream().let { baseStream ->
+            object : FilterInputStream(baseStream) {
+                override fun read(): Int = super.read().also {
+                    if (it != -1) updateProgress(1)
+                }
+
+                override fun read(b: ByteArray, off: Int, len: Int): Int = super.read(b, off, len).also {
+                    if (it > 0) updateProgress(it)
+                }
+
+                fun updateProgress(count: Int) {
+                    bytesRead += count
+                    onProgress(((bytesRead / totalSize) * 100).toInt().coerceIn(0, 100))
+                }
+            }
+        }
+
+        TarArchiveInputStream(GzipCompressorInputStream(progressStream)).use { tarStream ->
             Files.createDirectories(dir)
             var entry: ArchiveEntry?
             while ((tarStream.nextEntry.also { entry = it }) != null) {
@@ -47,11 +73,15 @@ object ReplaceInstallMethod: ImageInstallMethod {
                 Files.copy(tarStream, to, StandardCopyOption.REPLACE_EXISTING)
             }
         }
-        Log.i("ReplaceInstall", "Done extracting!")
+        Log.i(TAG, "Done extracting!")
     }
 
-
-    override suspend fun installImage(context: Context, image: File, assets: AssetManager): Boolean {
+    override suspend fun installImage(
+        context: Context,
+        image: File,
+        assets: AssetManager,
+        progress: MutableLiveData<Int>
+    ): Boolean {
 
         val dir = getImageDownloadsDir()
 
@@ -60,7 +90,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
         }
 
         withContext(Dispatchers.IO) {
-            Log.i("ReplaceInstall", "Scripts")
+            Log.i(TAG, "Scripts")
             listOf("replace.sh").forEach {
                 val file = File(dir.toFile(), it)
                 assets.open(it).use { input ->
@@ -72,13 +102,18 @@ object ReplaceInstallMethod: ImageInstallMethod {
             }
 
             // extract image to /sdcard/Download/image
-            installTo(image, dir)
+            installTo(image, dir) {
+                if (progress.value != it) {
+                    Log.d(TAG, "Extract progress: $it%")
+                    progress.postValue(it)
+                }
+            }
         }
 
         // tell user to run "bash /mnt/shared/image/replace.sh"
-        Toast.makeText(context, R.string.toast_replace_script, Toast.LENGTH_LONG)
+        Toast.makeText(context, R.string.toast_replace_script, Toast.LENGTH_LONG).show()
 
-        Log.i("ReplaceInstall", "Done!")
+        Log.i(TAG, "Done!")
 
         return true
     }

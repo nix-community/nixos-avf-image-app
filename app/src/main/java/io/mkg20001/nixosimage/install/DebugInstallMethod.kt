@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.os.Build
 import android.os.Environment
+import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.copyFile
 import io.mkg20001.nixosimage.data.mkdirp
@@ -32,7 +33,12 @@ object DebugInstallMethod: ImageInstallMethod {
         return getSdcardPathForTesting().resolve(ARCHIVE_NAME)
     }
 
-    override suspend fun installImage(context: Context, image: File, assets: AssetManager): Boolean {
+    override suspend fun installImage(
+        context: Context,
+        image: File,
+        assets: AssetManager,
+        progress: MutableLiveData<Int>
+    ): Boolean {
         try {
             if (!mkdirp(getSdcardPathForTesting().toAbsolutePath().toString())) {
                 return false

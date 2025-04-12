@@ -2,6 +2,7 @@ package io.mkg20001.nixosimage.install
 
 import android.content.Context
 import android.content.res.AssetManager
+import androidx.lifecycle.MutableLiveData
 import java.io.File
 
 interface ImageInstallMethod {
@@ -9,12 +10,19 @@ interface ImageInstallMethod {
     val display: Int
 
     fun isAvailable(): Boolean
-    suspend fun installImage (context: Context, image: File, assets: AssetManager): Boolean
+    suspend fun installImage (
+        context: Context,
+        image: File,
+        assets: AssetManager,
+        progress: MutableLiveData<Int>
+    ): Boolean
     val needsCleanup: Boolean
         get() = false
     val needsExternalStorage: Boolean
         get() = true
     val needsLaunchTerminalAfterwards: Boolean
+        get() = true
+    val needsImageClean: Boolean
         get() = true
 
     fun doCleanup() {

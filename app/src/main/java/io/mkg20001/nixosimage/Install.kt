@@ -39,14 +39,14 @@ class Install : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        binding = ActivityInstallBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_install)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        binding = ActivityInstallBinding.inflate(layoutInflater)
 
         val b = intent.extras ?: return errorOut()
 
@@ -113,12 +113,14 @@ class Install : AppCompatActivity() {
                     errorOut()
                 }
 
-                if (!extra.cleanupImage()) {
-                    Toast.makeText(applicationContext, R.string.remove_existing_image, Toast.LENGTH_LONG).show()
+                if (method!!.needsImageClean)  {
+                    if (!extra.cleanupImage()) {
+                        Toast.makeText(applicationContext, R.string.remove_existing_image, Toast.LENGTH_LONG).show()
+                    }
                 }
 
                 try {
-                    val success = method!!.installImage(applicationContext, file, assets)
+                    val success = method!!.installImage(applicationContext, file, assets, _progress)
 
                     if (success) {
                         installOK()
