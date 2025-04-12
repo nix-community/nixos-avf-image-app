@@ -82,10 +82,4 @@ object ReplaceInstallMethod: ImageInstallMethod {
 
         return true
     }
-
-    override val needsCleanup: Boolean = true
-
-    override fun doCleanup() {
-        // TODO: delete /sdcard/Download/image
-    }
 }
