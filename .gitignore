@@ -15,3 +15,8 @@
 local.properties
 /app/src/main/java/io/mkg20001/nixosimage/data/Auth.kt
 /app/release
+
+
+# Added by cargo
+
+/target
