@@ -59,7 +59,7 @@ data class GitHubReleaseAsset(
     }
 }
 
-private class AuthorizationInterceptor() : Interceptor {
+/* private class AuthorizationInterceptor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
             .apply {
@@ -68,17 +68,18 @@ private class AuthorizationInterceptor() : Interceptor {
             .build()
         return chain.proceed(request)
     }
-}
+} */
 
 val apolloClient = ApolloClient.Builder()
     .serverUrl("https://nixos-image.mkg20001.io/graphql")
     // If you want to develop on the server, run "cargo run" and fill in your IP here
     // .serverUrl("http://192.168.178.69:8000/graphql")
-    .okHttpClient(
+    // Access github directly with auth
+    /* .okHttpClient(
         OkHttpClient.Builder()
             .addInterceptor(AuthorizationInterceptor())
             .build()
-    )
+    ) */
     .build()
 
 object GitHubReleaseClient {
