@@ -1,6 +1,7 @@
 #[macro_use] extern crate rocket;
 
 use std::env;
+use std::path::{PathBuf};
 use graphql_client::{GraphQLQuery, Response};
 use serde::{Deserialize, Serialize};
 use rocket::serde::{json::Json};
@@ -60,16 +61,21 @@ pub struct Config {
 
 pub fn load_config() -> Config {
     // Layer from different sources to build configuration. Order matters!
+    let conf_file =  match env::var("CONFIG") {
+        Ok(val) => PathBuf::from(val),
+        Err(_) => env::current_dir().expect("Failed to get CWD").join("config.yaml"),
+    };
+
     let conf = Config::with_layers(&[
-        Layer::Yaml(env::current_dir().expect("Failed to get CWD").join("config.yaml")),
+        Layer::Yaml(conf_file),
         Layer::Env(Some(String::from("APP_"))),
     ]).expect("Failed to load config");
 
     conf
 }
 
-#[post("/graphql", data = "<query>")]
-async fn graphql(query: Json<QueryBody>, config: &State<Config>) -> Json<Response<ResponseData>> {
+#[post("/graphql", data = "<_query>")]
+async fn graphql(_query: Json<QueryBody>, config: &State<Config>) -> Json<Response<ResponseData>> {
     let request_body = GetReleases::build_query(Variables {});
 
     let response: Response<ResponseData> = reqwest::Client::new()
