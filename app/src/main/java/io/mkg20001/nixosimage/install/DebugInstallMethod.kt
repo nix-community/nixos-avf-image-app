@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.os.Build
 import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.copyFile
@@ -45,7 +46,12 @@ object DebugInstallMethod: ImageInstallMethod {
                 return false
             }
             withContext(Dispatchers.IO) {
-                copyFile(image, fromSdCard().toFile())
+                copyFile(image, fromSdCard().toFile()) {
+                    if (progress.value != it) {
+                        Log.d("DebugInstallMethod", "Copy progress $it%")
+                        progress.tryEmit(it)
+                    }
+                }
             }
         } catch (e: IOException) {
             e.printStackTrace()

@@ -56,7 +56,7 @@ class InstallMagic(
 
             fun installOK() {
                 Log.i("Install", "ok")
-                if (method!!.needsLaunchTerminalAfterwards) {
+                if (method.needsLaunchTerminalAfterwards) {
                     val packageName = "com.android.virtualization.terminal"
                     val className = "com.android.virtualization.terminal.MainActivity"
 

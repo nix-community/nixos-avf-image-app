@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
+import io.mkg20001.nixosimage.data.ProgressStream
 import io.mkg20001.nixosimage.data.mkdirp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,25 +43,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
     fun installTo(source: File, dir: Path, onProgress: (Int) -> Unit) {
         Log.i(TAG, "Extracting. source: $source, destination: $dir")
 
-        val progressStream = source.inputStream().let { baseStream ->
-            object : FilterInputStream(baseStream) {
-                val totalSize = source.length().toDouble()
-                var bytesRead = 0L
-
-                override fun read(): Int = super.read().also {
-                    if (it != -1) updateProgress(1)
-                }
-
-                override fun read(b: ByteArray, off: Int, len: Int): Int = super.read(b, off, len).also {
-                    if (it > 0) updateProgress(it)
-                }
-
-                fun updateProgress(count: Int) {
-                    bytesRead += count
-                    onProgress(((bytesRead / totalSize) * 100).toInt().coerceIn(0, 100))
-                }
-            }
-        }
+        val progressStream = ProgressStream(source.inputStream(), source.length().toDouble(), onProgress)
 
         TarArchiveInputStream(GzipCompressorInputStream(progressStream)).use { tarStream ->
             Files.createDirectories(dir)
@@ -111,8 +94,10 @@ object ReplaceInstallMethod: ImageInstallMethod {
             }
         }
 
-        // tell user to run "bash /mnt/shared/image/replace.sh"
-        Toast.makeText(context, R.string.toast_replace_script, Toast.LENGTH_LONG).show()
+        withContext(Dispatchers.Main) {
+            // tell user to run "bash /mnt/shared/image/replace.sh"
+            Toast.makeText(context, R.string.toast_replace_script, Toast.LENGTH_LONG).show()
+        }
 
         Log.i(TAG, "Done!")
 
