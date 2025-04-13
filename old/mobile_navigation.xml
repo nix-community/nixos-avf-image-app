@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="io.mkg20001.nixosimage.ui.home.HomeFragment"
+        android:name="io.mkg20001.nixosimage.ui.home.HomeComposable"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 

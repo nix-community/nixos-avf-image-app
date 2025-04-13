@@ -1,26 +1,32 @@
 package io.mkg20001.nixosimage.ui.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import io.mkg20001.myapplication.ui.theme.NixosImageTheme
+import android.os.Environment
+import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import io.mkg20001.nixosimage.BuildConfig
+import io.mkg20001.nixosimage.Install
+import io.mkg20001.nixosimage.R
+import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.clearOldFiles
+import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
+import io.mkg20001.nixosimage.install.ImageInstallMethod
+import io.mkg20001.nixosimage.install.InstallMethods
+import io.mkg20001.nixosimage.ui.DropdownItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
-class HomeFragment: ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            NixosImageTheme {
-                HomeComposable()
-            }
-        }
-
-        clearOldFiles(applicationContext.cacheDir)
-    }
-}
-
-/*class HomeFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -147,4 +153,4 @@ class HomeFragment: ComponentActivity() {
         super.onDestroyView()
         _binding = null
     }
-} */
+}

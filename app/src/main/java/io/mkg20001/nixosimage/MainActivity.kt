@@ -1,39 +1,74 @@
 package io.mkg20001.nixosimage
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import io.mkg20001.nixosimage.databinding.ActivityMainBinding
-import io.mkg20001.nixosimage.install.initShell
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import io.mkg20001.myapplication.ui.theme.NixosImageTheme
+import io.mkg20001.nixosimage.data.clearOldFiles
+import io.mkg20001.nixosimage.ui.home.HomeComposable
 
+@Composable
+fun AppNavGraph(startDestination: String = "home") {
+    val navController = rememberNavController()
 
-class MainActivity : AppCompatActivity() {
+    NavHost(navController = navController, startDestination = startDestination) {
+        composable("home") {
+            HomeComposable()
+        }
+        // composable("other") { OtherScreen() }
+    }
+}
 
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initShell()
+        clearOldFiles(applicationContext.cacheDir)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            MainView {
+                AppNavGraph()
+            }
+        }
+    }
+}
 
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainView(content: @Composable () -> Unit) {
+    NixosImageTheme {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    title = {
+                        Text(stringResource(R.string.short_name))
+                    }
+                )
+            },
+        ) { innerPadding ->
+            Column(modifier = Modifier.padding(innerPadding)) {
+                content()
+            }
+        }
     }
 }
