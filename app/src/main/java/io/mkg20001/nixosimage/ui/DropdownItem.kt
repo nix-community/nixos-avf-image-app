@@ -1,23 +1,13 @@
 package io.mkg20001.nixosimage.ui
 
-import android.R as R
-import android.content.Context
-import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,53 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.selects.select
-
-class DropdownItem(val id: String, val displayText: String) {
-    var placeholder: Boolean = false
-
-    constructor(_placeholder: Boolean, displayText: String): this("", displayText) {
-        placeholder = _placeholder
-    }
-
-    override fun toString(): String {
-        return displayText // This is what the dropdown will show
-    }
-
-    companion object {
-        fun setItems(ctx: Context, items: List<DropdownItem>, dropdown: Spinner) {
-            val adapter = ArrayAdapter(ctx, R.layout.simple_spinner_item, items)
-            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-            dropdown.adapter = adapter
-        }
-
-        fun getItem(dropdown: Spinner): DropdownItem? {
-            return dropdown.selectedItem as DropdownItem?
-        }
-
-        fun selectedAndNotPlaceholder(dropdown: Spinner): Boolean {
-            val item = getItem(dropdown)
-            return item != null && !item.placeholder
-        }
-
-        fun onChange(dropdown: Spinner, handler: (item: DropdownItem?) -> Unit) {
-            dropdown.onItemSelectedListener = object : OnItemSelectedListener {
-                override fun onItemSelected(
-                    parentView: AdapterView<*>?,
-                    selectedItemView: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    handler(getItem(dropdown))
-                }
-
-                override fun onNothingSelected(parentView: AdapterView<*>?) {
-                    handler(getItem(dropdown))
-                }
-            }
-        }
-    }
-}
 
 data class ExtItem(
     val id: String,
@@ -84,21 +27,6 @@ data class ExtItem(
     constructor(id: String, label: String): this(id, label, true)
 }
 
-
-@Composable
-fun ExtendedDropdownMenuItem(
-    item: ExtItem,
-    onValueChange: (item: ExtItem) -> Unit,
-) {
-    DropdownMenuItem(
-        text = { item.label },
-        enabled = item.real,
-        onClick = {
-            // Notify parent of value change
-            onValueChange(item)
-        }
-    )
-}
 
 @Composable
 fun MyDropdown(modifier: Modifier, style: TextStyle, selectedItem: ExtItem?, items: List<ExtItem>, onValueChange: (item: ExtItem) -> Unit) {
@@ -131,26 +59,6 @@ fun MyDropdown(modifier: Modifier, style: TextStyle, selectedItem: ExtItem?, ite
                     }
                 )
             }
-            /* items.forEach { item ->
-                DropdownMenuItem(
-                    text = { Text(item) },
-                    onClick = {
-                        selectedItem = item
-                        expanded = false
-                    }
-                )
-            } */
         }
     }
-
-    /* DropdownMenu(
-        modifier = modifier, expanded = expanded.value,
-        onDismissRequest = { expanded.value = false }
-    ) {
-        items.forEach {
-            ExtendedDropdownMenuItem(item = it) {
-                onValueChange(it)
-            }
-        }
-    } */
 }
