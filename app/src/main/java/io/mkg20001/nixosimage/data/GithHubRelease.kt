@@ -17,7 +17,7 @@ val WANTED_ARCH = when(currentArch) {
     else -> currentArch
 }
 
-data class GitHubRelease constructor(
+data class GitHubRelease(
     val tagName: String,
     val assets: List<GitHubReleaseAsset>
 ) {

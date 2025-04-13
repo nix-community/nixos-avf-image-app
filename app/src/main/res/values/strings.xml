@@ -27,6 +27,7 @@
     <string name="no_compat">[No compatible images found]</string>
     <string name="short_name">NixOS Image for Terminal</string>
     <string name="toast_intent_error">Error during load of Intent!</string>
+    <string name="format_version_info">%1$s (built %2$s, %3$s)</string>
 
     <string name="toast_external_storage">Please grant external storage for install and click "Install" again</string>
     <string name="toast_replace_script">Run in Terminal: bash /mnt/shared/image/replace.sh</string>

@@ -49,7 +49,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
             Files.createDirectories(dir)
             var entry: ArchiveEntry?
             while ((tarStream.nextEntry.also { entry = it }) != null) {
-                val to = dir.resolve(entry!!.getName())
+                val to = dir.resolve(entry!!.name)
                 if (Files.isDirectory(to)) {
                     Files.createDirectories(to)
                     continue

@@ -3,7 +3,7 @@ package io.mkg20001.nixosimage.extra
 import android.util.Log
 import com.topjohnwu.superuser.Shell
 
-class ExtraImageUtils constructor() {
+class ExtraImageUtils() {
     companion object {
         val RM_EXISTING = "rm -rfv /data/data/com.android.virtualization.terminal/{files/nixos.log,files/debian.log,files/linux,vm/nixos,vm/debian}"
         val LAUNCH_INSTALLER = "am start -n com.android.virtualization.terminal/.InstallerActivity"

@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.core.content.ContextCompat.startActivity
 import io.mkg20001.nixosimage.BuildConfig
-import io.mkg20001.nixosimage.ui.install.Install
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.GitHubReleaseClient
@@ -40,7 +39,11 @@ import io.mkg20001.nixosimage.install.ImageInstallMethod
 import io.mkg20001.nixosimage.install.InstallMethods
 import io.mkg20001.nixosimage.ui.ExtItem
 import io.mkg20001.nixosimage.ui.MyDropdown
-import kotlin.collections.map
+import io.mkg20001.nixosimage.ui.install.Install
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 
 sealed class HomeUiValues {
     object Loading : HomeUiValues()
@@ -183,11 +186,19 @@ fun MenuInstallMethods(methods: List<ImageInstallMethod>, modifier: Modifier, st
     MyDropdown(modifier = modifier, items = items, style = style, selectedItem = selectedItem) { onValueChange(it) }
 }
 
+fun formatDateTimeLocaleAware(dateTime: LocalDateTime): String {
+    val currentLocale = Locale.getDefault()
+    val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        .withLocale(currentLocale)
+    return dateTime.format(formatter)
+}
+
 @Composable
 fun MenuReleaseAsssets(assets: List<GitHubReleaseAsset>, modifier: Modifier, style: TextStyle, selectedItem: ExtItem?, onValueChange: (ExtItem) -> Unit) {
     val items = if (assets.isEmpty()) listOf(ExtItem(stringResource(R.string.no_compat)))
     else assets.map {
-        ExtItem(it.id, it.version + " (" + it.updatedAt + ", " + it.arch + ")")
+        val date = LocalDateTime.parse(it.updatedAt as String, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        ExtItem(it.id, stringResource(R.string.format_version_info, it.version, formatDateTimeLocaleAware(date), it.arch))
     }
 
     MyDropdown(modifier = modifier, items = items, style = style, selectedItem = selectedItem) { onValueChange(it) }
