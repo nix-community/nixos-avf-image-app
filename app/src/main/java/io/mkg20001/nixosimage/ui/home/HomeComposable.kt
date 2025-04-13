@@ -59,6 +59,8 @@ fun HomeComposable() {
     val stateVersion: MutableState<ExtItem?> = remember { mutableStateOf(null) }
 
     val v by produceState<HomeUiValues>(initialValue = HomeUiValues.Loading, key1 = trigger) {
+        value = HomeUiValues.Loading
+
         try {
             // Reset selection
             stateMethod.value = null
