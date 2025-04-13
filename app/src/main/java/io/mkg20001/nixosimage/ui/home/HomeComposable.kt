@@ -131,11 +131,11 @@ fun HomeComposable() {
             is HomeUiValues.Loading ->
                 @Composable {
                     Text(stringResource(R.string.introduction_loading), modifier = baseModifier)
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.padding(12.dp))
                 }
             is HomeUiValues.Error ->
                 @Composable {
-                    Text(stringResource(R.string.introduction_loading), modifier = baseModifier)
+                    Text(stringResource(R.string.introduction_error), modifier = baseModifier)
                     refresh()
                 }
             is HomeUiValues.Success -> {
