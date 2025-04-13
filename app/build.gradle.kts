@@ -82,18 +82,18 @@ dependencies {
     // Optional - Included automatically by material, only add when you need
     // the icons but not the material library (e.g. when using Material3 or a
     // custom design system based on Foundation)
-    implementation("androidx.compose.material:material-icons-core")
+    // implementation("androidx.compose.material:material-icons-core")
     // Optional - Add full set of material icons
-    implementation("androidx.compose.material:material-icons-extended")
+    // implementation("androidx.compose.material:material-icons-extended")
     // Optional - Add window size utils
-    implementation("androidx.compose.material3.adaptive:adaptive")
+    // implementation("androidx.compose.material3.adaptive:adaptive")
 
     // Optional - Integration with ViewModels
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
+    // implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
     // Optional - Integration with LiveData
-    implementation("androidx.compose.runtime:runtime-livedata")
+    // implementation("androidx.compose.runtime:runtime-livedata")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
+    // implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
 }
 
 apollo {
