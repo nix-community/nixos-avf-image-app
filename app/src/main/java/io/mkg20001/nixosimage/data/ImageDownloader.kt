@@ -14,33 +14,6 @@ import okio.buffer
 import java.io.File
 import java.io.FileOutputStream
 
-class ProgressResponseBody(
-    private val responseBody: ResponseBody,
-    private val progressCallback: (bytesRead: Long, contentLength: Long, done: Boolean) -> Unit
-) : ResponseBody() {
-
-    private var bufferedSource = source(responseBody.source()).buffer()
-
-    override fun contentType() = responseBody.contentType()
-
-    override fun contentLength() = responseBody.contentLength()
-
-    override fun source(): BufferedSource = bufferedSource
-
-    private fun source(source: Source): Source {
-        return object : ForwardingSource(source) {
-            var totalBytesRead = 0L
-
-            override fun read(sink: Buffer, byteCount: Long): Long {
-                val bytesRead = super.read(sink, byteCount)
-                totalBytesRead += if (bytesRead != -1L) bytesRead else 0
-                progressCallback(totalBytesRead, responseBody.contentLength(), bytesRead == -1L)
-                return bytesRead
-            }
-        }
-    }
-}
-
 suspend fun downloadFile(
     context: Context,
     fileUrl: String,
@@ -66,15 +39,10 @@ suspend fun downloadFile(
             // TODO: currently we're not re-using half-downloaded files.
             // this could be implemented aswell, athough i'm not sure if gh release supports that.
 
-            val progressBody = ProgressResponseBody(body) { bytesRead, contentLength, _ ->
-                val percent = (100 * bytesRead / contentLength).toInt()
-                onProgress(percent)
-            }
-
-            val inputStream = progressBody.byteStream()
+            val progressStream = ProgressStream(body.source().inputStream(), body.contentLength().toDouble(), onProgress)
             val outputStream = FileOutputStream(file)
 
-            inputStream.use { input ->
+            progressStream.use { input ->
                 outputStream.use { output ->
                     input.copyTo(output)
                 }
