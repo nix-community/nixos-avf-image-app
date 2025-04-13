@@ -94,6 +94,9 @@ dependencies {
     // implementation("androidx.compose.runtime:runtime-livedata")
 
     // implementation("androidx.lifecycle:lifecycle-viewmodel-ktx")
+
+    // https://mvnrepository.com/artifact/tools.fastlane/screengrab
+    implementation("tools.fastlane:screengrab:2.1.1")
 }
 
 apollo {
@@ -103,5 +106,11 @@ apollo {
             endpointUrl.set("https://api.github.com/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.test.espresso:espresso-core:3.5.0")
     }
 }

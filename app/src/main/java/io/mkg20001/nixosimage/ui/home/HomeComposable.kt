@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -142,7 +143,7 @@ fun HomeComposable() {
                     refresh()
                 }
             is HomeUiValues.Success -> {
-                Text(stringResource(R.string.introduction), modifier = baseModifier.padding(0.dp, 10.dp))
+                Text(stringResource(R.string.introduction), modifier = baseModifier.padding(0.dp, 10.dp).testTag("loaded_ui"))
                 Text(stringResource(R.string.menu_method), modifier = headingModifer, style = headingStyle)
                 MenuInstallMethods(modifier = listModifier, style = listStyle, selectedItem = stateMethod.value, methods = s.methods) {
                     stateMethod.value = it
