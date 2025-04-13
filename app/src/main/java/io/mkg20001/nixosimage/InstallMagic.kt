@@ -2,6 +2,7 @@ package io.mkg20001.nixosimage
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -63,6 +64,7 @@ class InstallMagic(
                     val intent = Intent().apply {
                         setClassName(packageName, className)
                     }
+                    intent.flags = FLAG_ACTIVITY_NEW_TASK
 
                     try {
                         startActivity(applicationContext, intent, null)

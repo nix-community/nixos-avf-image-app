@@ -4,21 +4,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import androidx.activity.ComponentActivity
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
-import io.mkg20001.myapplication.ui.theme.NixosImageTheme
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.install.InstallMethods
+import io.mkg20001.nixosimage.ui.theme.Red400
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,7 +48,9 @@ class Install : ComponentActivity() {
 
         Log.w("Install", "launch activity composable")
         setContent {
-            InstallView(magic!!)
+            InstallView {
+                InstallComposable(magic!!)
+            }
         }
 
         lifecycleScope.launch {
@@ -63,6 +65,14 @@ class Install : ComponentActivity() {
     }
 
     fun errorOut() {
-        Toast.makeText(applicationContext, "Error during load of Intent!", Toast.LENGTH_LONG).show()
+        setContent {
+            InstallView {
+                Text(
+                    stringResource(R.string.toast_intent_error),
+                    color = Red400,
+                    modifier = Modifier.padding(24.dp).fillMaxWidth().fillMaxHeight()
+                )
+            }
+        }
     }
 }

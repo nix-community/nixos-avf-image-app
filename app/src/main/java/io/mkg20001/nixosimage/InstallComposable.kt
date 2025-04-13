@@ -1,7 +1,5 @@
 package io.mkg20001.nixosimage
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,29 +13,24 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.mkg20001.myapplication.ui.theme.NixosImageTheme
 
 @Composable
-fun InstallComposable(install: InstallMagic, modifier: Modifier) {
+fun InstallComposable(install: InstallMagic) {
     val text = install.text.collectAsState().value
     val progress = install.progress.collectAsState().value
-
-    Column(
-        modifier
-    )
-        {
-            Text(text = text, modifier = Modifier.fillMaxWidth().padding(12.dp))
-            LinearProgressIndicator(progress = { progress.toFloat() / 100 }, modifier = Modifier.fillMaxWidth().padding(12.dp))
-        }
+    Column {
+        Text(text = text, modifier = Modifier.fillMaxWidth().padding(12.dp))
+        LinearProgressIndicator(progress = { progress.toFloat() / 100 }, modifier = Modifier.fillMaxWidth().padding(12.dp))
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InstallView(magic: InstallMagic) {
+fun InstallView(content: @Composable () -> Unit) {
     NixosImageTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -53,7 +46,9 @@ fun InstallView(magic: InstallMagic) {
                 )
             },
         ) { innerPadding ->
-            InstallComposable(magic, modifier = Modifier.padding(innerPadding))
+            Column(modifier = Modifier.padding(innerPadding)) {
+                content()
+            }
         }
     }
 }
