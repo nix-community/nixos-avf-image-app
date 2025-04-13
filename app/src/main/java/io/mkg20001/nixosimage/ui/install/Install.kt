@@ -1,4 +1,4 @@
-package io.mkg20001.nixosimage
+package io.mkg20001.nixosimage.ui.install
 
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.install.InstallMethods
 import io.mkg20001.nixosimage.ui.theme.Red400

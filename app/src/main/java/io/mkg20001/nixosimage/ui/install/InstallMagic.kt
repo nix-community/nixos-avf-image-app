@@ -1,4 +1,4 @@
-package io.mkg20001.nixosimage
+package io.mkg20001.nixosimage.ui.install
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.downloadFile
 import io.mkg20001.nixosimage.extra.ExtraImageUtils

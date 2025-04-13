@@ -18,7 +18,7 @@
         android:theme="@style/Theme.MyApplication"
         >
         <activity
-            android:name=".Install"
+            android:name=".ui.install.Install"
             android:exported="false"
             android:label="@string/install"/>
         <activity

@@ -1,12 +1,10 @@
 package io.mkg20001.nixosimage.ui.home
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
-import android.provider.Settings.Global.getString
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,12 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.core.content.ContextCompat.startActivity
 import io.mkg20001.nixosimage.BuildConfig
-import io.mkg20001.nixosimage.Install
+import io.mkg20001.nixosimage.ui.install.Install
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.GitHubReleaseClient
