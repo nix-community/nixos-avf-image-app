@@ -14,7 +14,7 @@
     <string name="install_step_downloading">Downloading NixOS image</string>
     <string name="install_step_installing">Installing NixOS image</string>
 
-    <string name="method_magisk">Install using Magisk</string>
+    <string name="method_magisk">Install using Magisk (untested)</string>
     <string name="method_debug">Install using Terminal Debug mode</string>
     <string name="method_replace">Install using replace script</string>
     <string name="no_method">[No install methods found]</string>
