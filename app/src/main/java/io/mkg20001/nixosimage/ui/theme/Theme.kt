@@ -18,16 +18,16 @@ import io.mkg20001.nixosimage.ui.theme.Pink40
 import io.mkg20001.nixosimage.ui.theme.Pink80
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Blue500,
-    onPrimary = Color.White,
-    secondary = Indigo200,
+    primary = Blue700,
+    onPrimary = Color.Black,
+    secondary = Indigo700,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Blue700,
-    onPrimary = Color.Black,
-    secondary = Indigo700,
+    primary = Blue500,
+    onPrimary = Color.White,
+    secondary = Indigo200,
     tertiary = Pink40
 
     /* Other default colors to override
