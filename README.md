@@ -23,3 +23,8 @@ Contains:
 - after that the vm will stop
 - reopen terminal and run again: bash /mnt/shared/image/[replace.sh](http://replace.sh/)
 - this time it will take longer, after the restart it should start nixos
+
+# Notes for dev
+
+fastlane must be run in android studio's terminal
+(otherwise it may fail to run aapt2 etc due to dynamic linking)

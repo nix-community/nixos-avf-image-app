@@ -35,4 +35,10 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
+  desc "Capture Screen"
+  lane :capture_screen do
+    gradle(task: "clean assembleDebug assembleAndroidTest")
+    screengrab(clear_previous_screenshots: true, tests_apk_path: "app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk", app_apk_path: "app/build/outputs/apk/debug/app-debug.apk", reinstall_app: true, use_tests_in_classes: "io.mkg20001.nixosimage.FastlaneScreenshot")
+  end
 end

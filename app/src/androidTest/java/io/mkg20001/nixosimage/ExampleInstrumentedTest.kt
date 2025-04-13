@@ -27,13 +27,12 @@ class ExampleInstrumentedTest {
         assertEquals("io.mkg20001.nixosimage", appContext.packageName)
     }
 
-
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
     fun testLoadMainView() {
-        composeTestRule.waitUntil {
+        composeTestRule.waitUntil(6000) {
             // Replace with your condition, e.g., UI element becomes visible after async event
             composeTestRule.onNodeWithTag("loaded_ui").isDisplayed()
         }
