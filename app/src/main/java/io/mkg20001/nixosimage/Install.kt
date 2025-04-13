@@ -6,8 +6,17 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
+import androidx.activity.ComponentActivity
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.lifecycle.lifecycleScope
+import io.mkg20001.myapplication.ui.theme.NixosImageTheme
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.install.InstallMethods
 import kotlinx.coroutines.Dispatchers
@@ -15,18 +24,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class Install : AppCompatActivity() {
+class Install : ComponentActivity() {
     var magic: InstallMagic? = null
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        /* ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        } */
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -44,7 +48,7 @@ class Install : AppCompatActivity() {
 
         Log.w("Install", "launch activity composable")
         setContent {
-            InstallComposable(magic!!)
+            InstallView(magic!!)
         }
 
         lifecycleScope.launch {
