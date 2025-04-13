@@ -34,6 +34,9 @@ class InstallMagic(
     suspend fun run() {
         val extra = ExtraImageUtils()
 
+        updateStatus(R.string.install_step_downloading)
+        _progress.tryEmit(0)
+
         // TODO: include methods needing cleanup properly
         Log.i("Download", "Downloading image")
 
@@ -103,13 +106,6 @@ class InstallMagic(
         } else {
             Log.e("Download", "Failed to download file")
         }
-
-        doInstall()
-    }
-
-    fun doInstall() {
-        updateStatus(R.string.install_step_downloading)
-        _progress.tryEmit(20)
     }
 
     fun updateStatus(task: Int) {
