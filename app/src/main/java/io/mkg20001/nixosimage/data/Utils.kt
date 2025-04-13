@@ -1,5 +1,6 @@
 package io.mkg20001.nixosimage.data
 
+import android.util.Log
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -37,5 +38,16 @@ class ProgressStream(val baseStream: InputStream, val totalSize: Double, val onP
     fun updateProgress(count: Int) {
         bytesRead += count
         onProgress(((bytesRead / totalSize) * 100).toInt().coerceIn(0, 100))
+    }
+}
+
+fun clearOldFiles(dir: File) {
+    val cutoff = System.currentTimeMillis() - 24 * 60 * 60 * 1000 // 1 day in milliseconds
+
+    dir.listFiles()?.forEach { file ->
+        if (file.isFile && file.lastModified() < cutoff) {
+            Log.w("ClearCache", "Clearing old cache: $file")
+            file.delete()
+        }
     }
 }

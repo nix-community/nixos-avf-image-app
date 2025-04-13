@@ -77,6 +77,7 @@ dependencies {
     androidTestImplementation(composeBom)
 
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.navigation:navigation-compose") // Or latest
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")

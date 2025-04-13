@@ -16,6 +16,7 @@ import io.mkg20001.nixosimage.BuildConfig
 import io.mkg20001.nixosimage.Install
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.GitHubReleaseAsset
+import io.mkg20001.nixosimage.data.clearOldFiles
 import io.mkg20001.nixosimage.databinding.FragmentHomeBinding
 import io.mkg20001.nixosimage.install.ImageInstallMethod
 import io.mkg20001.nixosimage.install.InstallMethods
@@ -50,6 +51,8 @@ class HomeFragment : Fragment() {
 
         val methodsDropdown = binding.installMethod
         val versionsDropdown = binding.nixosVersion
+
+        clearOldFiles(requireContext().cacheDir)
 
         homeViewModel.state.observe(viewLifecycleOwner) {
             val str = when(it) {
