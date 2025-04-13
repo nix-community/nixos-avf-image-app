@@ -1,0 +1,1 @@
+Install NixOS on the Android Terminal
