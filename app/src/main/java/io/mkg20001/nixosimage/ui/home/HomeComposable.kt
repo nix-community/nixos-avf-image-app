@@ -53,6 +53,7 @@ sealed class HomeUiValues {
 
 @Composable
 fun HomeComposable() {
+    // Can't be bothered to make this a view model so this hack must do
     var trigger by remember { mutableStateOf(0) }
 
     val stateMethod: MutableState<ExtItem?> = remember { mutableStateOf(null) }
@@ -117,7 +118,7 @@ fun HomeComposable() {
             }
         }
 
-        val intent: Intent = Intent(
+        val intent = Intent(
             context,
             Install::class.java
         )
@@ -176,7 +177,7 @@ fun MenuInstallMethods(methods: List<ImageInstallMethod>, modifier: Modifier, st
     val items = if (methods.isEmpty()) listOf(ExtItem(stringResource(R.string.no_method)))
         else methods.map {
             if (!it.isAvailable()) {
-                ExtItem(it.id, "#DEBUG#" + stringResource(it.display))
+                ExtItem(it.id, "#DEBUG# " + stringResource(it.display))
             } else {
                 ExtItem(it.id, stringResource(it.display))
             }
