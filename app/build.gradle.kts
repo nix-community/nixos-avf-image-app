@@ -70,6 +70,7 @@ dependencies {
 
     // for permission granting
     // implementation("androidx.test:rules:1.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     // graphql
     /* implementation("com.squareup.okhttp3:okhttp:4.10.0")

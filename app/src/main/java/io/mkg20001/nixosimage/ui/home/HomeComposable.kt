@@ -99,7 +99,7 @@ fun HomeComposable() {
             onClick = {
                 trigger++
             },
-            modifier = Modifier.padding(6.dp)
+            modifier = Modifier.padding(6.dp).testTag("refresh")
         ) {
             Text(stringResource(R.string.refresh))
         }
@@ -135,7 +135,7 @@ fun HomeComposable() {
             is HomeUiValues.Loading ->
                 @Composable {
                     Text(stringResource(R.string.introduction_loading), modifier = baseModifier)
-                    CircularProgressIndicator(modifier = Modifier.padding(12.dp))
+                    CircularProgressIndicator(modifier = Modifier.padding(12.dp).testTag("loading_ui"))
                 }
             is HomeUiValues.Error ->
                 @Composable {

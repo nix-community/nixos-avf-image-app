@@ -1,5 +1,7 @@
 package io.mkg20001.nixosimage
 
+import io.mkg20001.nixosimage.data.GitHubReleaseClient
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +15,10 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun fetch_releases() = runTest {
+        assert(GitHubReleaseClient.getReleases()?.isNotEmpty() == true)
     }
 }
