@@ -59,6 +59,7 @@ class ExampleInstrumentedTest {
         }
     }
 
+    @Test
     fun testRefresh() {
         composeTestRule.waitUntil(6000) {
             // Replace with your condition, e.g., UI element becomes visible after async event
@@ -77,8 +78,6 @@ class ExampleInstrumentedTest {
 
     Also test:
     - no network error
-    - refresh button
-    - install button
 
      */
 }
