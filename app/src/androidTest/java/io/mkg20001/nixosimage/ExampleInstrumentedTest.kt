@@ -43,7 +43,7 @@ class ExampleInstrumentedTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun testLoadMainView() {
+    fun testInstallButton() {
         composeTestRule.waitUntil(6000) {
             // Replace with your condition, e.g., UI element becomes visible after async event
             composeTestRule.onNodeWithTag("loaded_ui").isDisplayed()
