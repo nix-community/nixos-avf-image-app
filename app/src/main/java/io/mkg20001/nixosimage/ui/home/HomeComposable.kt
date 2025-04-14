@@ -161,7 +161,7 @@ fun HomeComposable() {
                             )
                         },
                         enabled = stateMethod.value?.real == true && stateVersion.value?.real == true,
-                        modifier = Modifier.padding(6.dp)
+                        modifier = Modifier.padding(6.dp).testTag("install")
                     ) {
                         Text(stringResource(R.string.install))
                     }

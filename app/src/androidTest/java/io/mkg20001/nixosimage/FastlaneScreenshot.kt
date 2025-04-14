@@ -3,8 +3,10 @@ package io.mkg20001.nixosimage
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.mkg20001.nixosimage.ui.install.Install
 import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
@@ -27,6 +29,11 @@ class FastlaneScreenshot {
         @BeforeClass @JvmStatic
         fun beforeAll() {
             CleanStatusBar.enableWithDefaults()
+
+            val instrumentation = InstrumentationRegistry.getInstrumentation()
+            instrumentation.uiAutomation.executeShellCommand(
+                "appops set ${BuildConfig.APPLICATION_ID} MANAGE_EXTERNAL_STORAGE allow"
+            ).close()
         }
 
         @AfterClass @JvmStatic
@@ -47,6 +54,8 @@ class FastlaneScreenshot {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get:Rule
+    val composeTestRuleTwo = createAndroidComposeRule<Install>()
 
     @Test
     fun testTakeScreenshot() {
@@ -56,5 +65,16 @@ class FastlaneScreenshot {
         }
 
         Screengrab.screenshot("loaded")
+
+        composeTestRule.onNodeWithTag("install").performClick()
+
+        Thread.sleep(2000)
+
+        composeTestRule.waitUntil(6000) {
+            // Replace with your condition, e.g., UI element becomes visible after async event
+            composeTestRule.onNodeWithTag("install_ui").isDisplayed()
+        }
+
+        Screengrab.screenshot("installing")
     }
 }

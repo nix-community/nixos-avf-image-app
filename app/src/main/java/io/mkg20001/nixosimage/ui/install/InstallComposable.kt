@@ -14,6 +14,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.mkg20001.myapplication.ui.theme.NixosImageTheme
@@ -47,7 +48,7 @@ fun InstallView(content: @Composable () -> Unit) {
                 )
             },
         ) { innerPadding ->
-            Column(modifier = Modifier.padding(innerPadding)) {
+            Column(modifier = Modifier.padding(innerPadding).testTag("install_ui")) {
                 content()
             }
         }

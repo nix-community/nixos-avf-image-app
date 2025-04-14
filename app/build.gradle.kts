@@ -68,6 +68,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.commons/commons-compress
     implementation("org.apache.commons:commons-compress:1.27.1")
 
+    // for permission granting
+    // implementation("androidx.test:rules:1.2.0")
+
     // graphql
     /* implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
