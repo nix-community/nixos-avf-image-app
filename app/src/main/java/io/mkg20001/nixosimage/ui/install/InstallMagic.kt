@@ -45,6 +45,9 @@ class InstallMagic(
     private val _progress = MutableStateFlow(0)
     val progress: StateFlow<Int> = _progress
 
+    private val _done = MutableStateFlow(false)
+    val done: StateFlow<Boolean> = _done
+
     suspend fun run() {
         val extra = ExtraImageUtils()
 

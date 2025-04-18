@@ -2,7 +2,6 @@ package io.mkg20001.nixosimage.install
 
 import android.content.Context
 import android.content.res.AssetManager
-import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.File
 
