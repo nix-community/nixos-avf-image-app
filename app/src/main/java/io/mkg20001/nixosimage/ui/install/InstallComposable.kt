@@ -36,14 +36,16 @@ fun InstallComposable(install: InstallMagic) {
         Text(text = text, modifier = Modifier.fillMaxWidth().padding(12.dp))
         LinearProgressIndicator(progress = { progress.toFloat() / 100 }, modifier = Modifier.fillMaxWidth().padding(12.dp))
         Instructions(install.method.id)
-        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-            Button(
-                onClick = {
-                    OpenTerminal(applicationContext)
-                },
-                enabled = done,
-            ) {
-                Text(stringResource(R.string.open_terminal_again))
+        if (install.method.showOpenTerminalAgainBtn) {
+            Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = {
+                        OpenTerminal(applicationContext)
+                    },
+                    enabled = done,
+                ) {
+                    Text(stringResource(R.string.open_terminal_again))
+                }
             }
         }
     }

@@ -24,6 +24,8 @@ interface ImageInstallMethod {
         get() = true
     val needsImageClean: Boolean
         get() = true
+    val showOpenTerminalAgainBtn: Boolean
+        get() = true
 
     fun doCleanup() {
         throw RuntimeException("not applicable")

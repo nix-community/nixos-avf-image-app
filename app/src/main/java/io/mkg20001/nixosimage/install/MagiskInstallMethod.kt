@@ -26,6 +26,7 @@ object MagiskInstallMethod: ImageInstallMethod {
     override val id = "magisk"
 
     override val display = R.string.method_magisk
+    override val showOpenTerminalAgainBtn: Boolean = false
 
     override fun isAvailable(): Boolean {
         return Shell.getShell().isRoot
