@@ -101,6 +101,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/tools.fastlane/screengrab
     implementation("tools.fastlane:screengrab:2.1.1")
+
+    implementation("com.github.jeziellago:compose-markdown:0.5.7")
+
+    // implementation("com.yazantarifi:markdown-compose:1.0.4")
 }
 
 apollo {

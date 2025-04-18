@@ -1,0 +1,1 @@
+- If there are any Terminal startup errors, please try closing and opening Terminal again before resetting, as this often resolves the error.

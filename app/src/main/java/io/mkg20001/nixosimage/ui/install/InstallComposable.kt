@@ -14,9 +14,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import io.mkg20001.myapplication.ui.theme.NixosImageTheme
 import io.mkg20001.nixosimage.R
 
@@ -24,9 +26,11 @@ import io.mkg20001.nixosimage.R
 fun InstallComposable(install: InstallMagic) {
     val text = install.text.collectAsState().value
     val progress = install.progress.collectAsState().value
+
     Column {
         Text(text = text, modifier = Modifier.fillMaxWidth().padding(12.dp))
         LinearProgressIndicator(progress = { progress.toFloat() / 100 }, modifier = Modifier.fillMaxWidth().padding(12.dp))
+        Instructions(install.method.id)
     }
 }
 
@@ -53,4 +57,26 @@ fun InstallView(content: @Composable () -> Unit) {
             }
         }
     }
+}
+
+@Composable
+fun Instructions(method: String) {
+    val applicationContext = LocalContext.current.applicationContext
+
+    fun GetContent(file: String): String {
+        return String(applicationContext.assets.open("instructions_$file.md").readAllBytes(),
+            Charsets.UTF_8)
+    }
+
+    val markdown = GetContent(method) + "\n" + GetContent("generic")
+
+    MarkdownText(
+        modifier = Modifier.padding(8.dp),
+        markdown = markdown,
+        onLinkClicked = {
+            if (it == "terminal://") {
+                OpenTerminal(applicationContext)
+            }
+        },
+    )
 }

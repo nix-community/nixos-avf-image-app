@@ -16,6 +16,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 
+fun OpenTerminal(applicationContext: Context) {
+    val packageName = "com.android.virtualization.terminal"
+    val className = "com.android.virtualization.terminal.MainActivity"
+
+    val intent = Intent().apply {
+        setClassName(packageName, className)
+    }
+    intent.flags = FLAG_ACTIVITY_NEW_TASK
+
+    try {
+        startActivity(applicationContext, intent, null)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        // Handle the case when the target activity is not found or other issues
+    }
+}
+
 
 class InstallMagic(
     val applicationContext: Context,
@@ -58,20 +75,7 @@ class InstallMagic(
             fun installOK() {
                 Log.i("Install", "ok")
                 if (method.needsLaunchTerminalAfterwards) {
-                    val packageName = "com.android.virtualization.terminal"
-                    val className = "com.android.virtualization.terminal.MainActivity"
-
-                    val intent = Intent().apply {
-                        setClassName(packageName, className)
-                    }
-                    intent.flags = FLAG_ACTIVITY_NEW_TASK
-
-                    try {
-                        startActivity(applicationContext, intent, null)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        // Handle the case when the target activity is not found or other issues
-                    }
+                    OpenTerminal(applicationContext)
                 }
             }
 

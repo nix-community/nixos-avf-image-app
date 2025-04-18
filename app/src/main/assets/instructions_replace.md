@@ -1,0 +1,7 @@
+- If you didn't install the debian Terminal image, please click Install once Terminal opens to install the Debian Image
+- You will need to run this command in Terminal: 
+  - `bash /mnt/shared/image/replace.sh`
+  - After that the Terminal will close
+- Re-open Terminal and run the same command again
+  - You can press arrow-up instead of typing the command again
+  - This time it will take longer. After it finishes you should have NixOS installed (green prompt).

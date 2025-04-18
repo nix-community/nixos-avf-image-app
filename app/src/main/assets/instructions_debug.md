@@ -1,0 +1,2 @@
+- If you already have a Terminal image installed, you may need to clean it up using "Settings (Gear Icon) > Recovery > Restore > Reset to initial version"
+  - Auto-installation should start after that
