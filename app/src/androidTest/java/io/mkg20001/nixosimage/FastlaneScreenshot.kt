@@ -64,6 +64,8 @@ class FastlaneScreenshot {
             composeTestRule.onNodeWithTag("loaded_ui").isDisplayed()
         }
 
+        Thread.sleep(2000)
+
         Screengrab.screenshot("loaded")
 
         composeTestRule.onNodeWithTag("install").performClick()
