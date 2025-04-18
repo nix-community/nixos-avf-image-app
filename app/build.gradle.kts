@@ -13,8 +13,8 @@ android {
         applicationId = "io.mkg20001.nixosimage"
         minSdk = 35
         targetSdk = 36
-        versionCode = 4
-        versionName = "0.1.2"
+        versionCode = 5
+        versionName = "0.1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
