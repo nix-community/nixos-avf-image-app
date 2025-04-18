@@ -6,6 +6,7 @@ IMG_LOC=/mnt/shared/image
 VM_LOC=/mnt/internal/linux
 
 STEP_MARKER=step_2
+SELF=$(readlink -f $0)
 
 # Only adds vda3
 step_1() {
@@ -20,6 +21,8 @@ step_1() {
   VM_CONFIG=$(sudo cat "$VM_LOC/vm_config.json")
   VM_REPLACED=${VM_CONFIG/"$BEFORE"/"$AFTER"}
   echo "$VM_REPLACED" | sudo tee "$VM_LOC/vm_config.json"
+
+  echo "bash $SELF" >> "$HOME/.bashrc"
 
   touch "$STEP_MARKER"
 
