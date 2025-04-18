@@ -77,6 +77,7 @@ class InstallMagic(
 
             fun installOK() {
                 Log.i("Install", "ok")
+                _done.tryEmit(true)
                 if (method.needsLaunchTerminalAfterwards) {
                     OpenTerminal(applicationContext)
                 }
