@@ -22,9 +22,6 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "true")
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles("proguard-rules.pro")
         }
         release {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "false")
