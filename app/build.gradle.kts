@@ -13,8 +13,8 @@ android {
         applicationId = "io.mkg20001.nixosimage"
         minSdk = 35
         targetSdk = 36
-        versionCode = 5
-        versionName = "0.1.3"
+        versionCode = 6
+        versionName = "0.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -22,14 +22,13 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "true")
+            isMinifyEnabled = false
+            isShrinkResources = true
         }
         release {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "false")
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isShrinkResources = true
         }
     }
     compileOptions {
