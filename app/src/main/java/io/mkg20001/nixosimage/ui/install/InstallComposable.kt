@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -90,6 +91,8 @@ fun Instructions(method: String) {
     MarkdownText(
         modifier = Modifier.padding(8.dp),
         markdown = markdown,
+        syntaxHighlightColor = LocalTextStyle.current.background,
+        syntaxHighlightTextColor = LocalTextStyle.current.color,
         onLinkClicked = {
             if (it == "terminal://") {
                 OpenTerminal(applicationContext)
