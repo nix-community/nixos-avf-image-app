@@ -47,7 +47,7 @@ step_2() {
   cp "$IMG_LOC/efi_part" .
   sudo umount /boot/efi || true
   sudo umount /kernel_extras || true
-  sudo rm "$VM_LOC/efi_part"
+  sudo rm -f "$VM_LOC/efi_part" "$VM_LOC/kernel_extras" "$VM_LOC/vmlinuz" "$VM_LOC/initrd.img"
   sync
   sleep 3s
   sudo dd if=efi_part bs=1G oflag=direct "of=$VM_LOC/efi_part"
