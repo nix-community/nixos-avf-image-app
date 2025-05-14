@@ -17,8 +17,8 @@ step_1() {
 
   sudo truncate -s 8GiB "$VM_LOC/nixos_root"
 
-  if sudo test -e /mnt/internal/linux/root_part_backup; then
-    sudo mv -v /mnt/internal/linux/root_part_backup /mnt/internal/linux/root_part_backup_
+  if sudo test -e "$VM_LOC/root_part_backup"; then
+    sudo mv -v "$VM_LOC/root_part_backup" "$VM_LOC/root_part_backup_"
   fi
 
   # TODO: use deterministic nixos root guid
@@ -67,6 +67,10 @@ step_2() {
   sudo mv "$VM_LOC/nixos_root" "$VM_LOC/root_part"
 
   rm -rfv "$IMG_LOC"
+
+  if sudo test -e "$VM_LOC/root_part_backup_"; then
+    sudo mv -v "$VM_LOC/root_part_backup_" "$VM_LOC/root_part_backup"
+  fi
 
   sudo reboot
 }
