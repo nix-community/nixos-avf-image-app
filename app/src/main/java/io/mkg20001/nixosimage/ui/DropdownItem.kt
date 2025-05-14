@@ -49,7 +49,7 @@ fun MyDropdown(modifier: Modifier, style: TextStyle, selectedItem: ExtItem?, ite
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .clickable { expanded = true }
-                .padding(16.dp)
+                .padding(14.dp)
                 .fillMaxWidth()
         ) {
             Text(
