@@ -5,7 +5,6 @@ import android.content.res.AssetManager
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.copyFile
 import io.mkg20001.nixosimage.data.mkdirp

@@ -22,8 +22,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.jeziellago.compose.markdowntext.MarkdownText
-import io.mkg20001.nixosimage.ui.theme.NixosImageTheme
 import io.mkg20001.nixosimage.R
+import io.mkg20001.nixosimage.ui.theme.NixosImageTheme
 
 @Composable
 fun InstallComposable(install: InstallMagic) {

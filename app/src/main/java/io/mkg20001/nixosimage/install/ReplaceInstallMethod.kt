@@ -5,7 +5,6 @@ import android.content.res.AssetManager
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.ProgressStream
 import io.mkg20001.nixosimage.data.mkdirp
@@ -17,7 +16,6 @@ import org.apache.commons.compress.archivers.ArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
 import java.io.File
-import java.io.FilterInputStream
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption

@@ -1,11 +1,7 @@
 package io.mkg20001.nixosimage.data
 
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.network.okHttpClient
-import okhttp3.OkHttpClient
 import io.mkg20001.nixosimage.GetReleasesQuery
-import okhttp3.Interceptor
-import okhttp3.Response
 import java.io.Serializable
 
 private val regexTag = Regex("^nixos-(?<version>[a-z0-9.]+)$")
