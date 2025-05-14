@@ -110,6 +110,7 @@ class InstallMagic(
             }
         } else {
             Log.e("Download", "Failed to download file")
+            errorOut()
         }
     }
 
