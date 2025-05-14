@@ -17,6 +17,10 @@ step_1() {
 
   sudo truncate -s 8GiB "$VM_LOC/nixos_root"
 
+  if sudo test -e /mnt/internal/linux/root_part_backup; then
+    sudo mv -v /mnt/internal/linux/root_part_backup /mnt/internal/linux/root_part_backup_
+  fi
+
   # TODO: use deterministic nixos root guid
   VM_CONFIG=$(sudo cat "$VM_LOC/vm_config.json")
   VM_REPLACED=${VM_CONFIG/"$BEFORE"/"$AFTER"}
@@ -41,7 +45,8 @@ step_2() {
   # dd "if=$IMG_LOC/root_part" "of=/dev/vda3" bs=250M oflag=sync
 
   cp "$IMG_LOC/efi_part" .
-  sudo umount /boot/efi
+  sudo umount /boot/efi || true
+  sudo umount /kernel_extras || true
   sudo rm "$VM_LOC/efi_part"
   sync
   sleep 3s
