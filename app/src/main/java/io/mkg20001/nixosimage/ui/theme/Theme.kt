@@ -1,4 +1,4 @@
-package io.mkg20001.myapplication.ui.theme
+package io.mkg20001.nixosimage.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

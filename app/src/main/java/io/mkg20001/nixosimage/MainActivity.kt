@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.mkg20001.myapplication.ui.theme.NixosImageTheme
+import io.mkg20001.nixosimage.ui.theme.NixosImageTheme
 import io.mkg20001.nixosimage.data.clearOldFiles
 import io.mkg20001.nixosimage.ui.home.HomeComposable
 
