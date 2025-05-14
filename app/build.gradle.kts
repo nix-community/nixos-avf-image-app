@@ -22,13 +22,9 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "true")
-            isMinifyEnabled = false
-            isShrinkResources = false
         }
         release {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "false")
-            isMinifyEnabled = false
-            isShrinkResources = false
         }
     }
     compileOptions {
