@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.apollo)
     alias(libs.plugins.compose.compiler)
+
+    id("io.sentry.android.gradle") version "5.7.0"
 }
 
 android {
@@ -119,4 +121,13 @@ configurations.all {
     resolutionStrategy {
         force("androidx.test.espresso:espresso-core:3.5.0")
     }
+}
+
+sentry {
+    org.set("nixos-avf")
+    projectName.set("nixos-avf-image-app")
+
+    // this will upload your source code to Sentry to show it as part of the stack traces
+    // disable if you don't want to expose your sources
+    includeSourceContext.set(true)
 }

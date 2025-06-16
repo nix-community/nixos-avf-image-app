@@ -11,6 +11,9 @@ import io.mkg20001.nixosimage.data.GitHubReleaseAsset
 import io.mkg20001.nixosimage.data.downloadFile
 import io.mkg20001.nixosimage.extra.ExtraImageUtils
 import io.mkg20001.nixosimage.install.ImageInstallMethod
+import io.sentry.Breadcrumb
+import io.sentry.Sentry
+import io.sentry.SentryLevel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,6 +52,14 @@ class InstallMagic(
     val done: StateFlow<Boolean> = _done
 
     suspend fun run() {
+        Sentry.addBreadcrumb(Breadcrumb().apply {
+            message = "Installing"
+            category = "task"
+            level = SentryLevel.INFO
+            setData("method", method.id)
+            setData("asset", asset)
+        })
+
         val extra = ExtraImageUtils()
 
         updateStatus(R.string.install_step_downloading)
@@ -106,6 +117,7 @@ class InstallMagic(
                 }
             } catch(e: Exception) {
                 e.printStackTrace()
+                Sentry.captureException(e)
                 installFail(R.string.install_err_image)
             }
         } else {

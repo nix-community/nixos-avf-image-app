@@ -41,6 +41,7 @@ import io.mkg20001.nixosimage.install.InstallMethods
 import io.mkg20001.nixosimage.ui.ExtItem
 import io.mkg20001.nixosimage.ui.MyDropdown
 import io.mkg20001.nixosimage.ui.install.Install
+import io.sentry.Sentry
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -82,6 +83,7 @@ fun HomeComposable() {
             }
         } catch(e: Exception) {
             e.printStackTrace()
+            Sentry.captureException(e)
             value = HomeUiValues.Error
         }
     }

@@ -36,3 +36,6 @@ wip
 
 # scan temporary files
 **/fastlane/test_output
+
+# Sentry Config File
+sentry.properties

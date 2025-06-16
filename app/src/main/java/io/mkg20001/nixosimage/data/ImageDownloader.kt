@@ -1,6 +1,7 @@
 package io.mkg20001.nixosimage.data
 
 import android.content.Context
+import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -44,6 +45,7 @@ suspend fun downloadFile(
 
             file
         } catch (e: Exception) {
+            Sentry.captureException(e)
             e.printStackTrace()
             null
         }
