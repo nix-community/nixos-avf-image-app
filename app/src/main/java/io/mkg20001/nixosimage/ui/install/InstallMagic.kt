@@ -54,6 +54,19 @@ class InstallMagic(
         updateStatus(R.string.install_step_downloading)
         _progress.tryEmit(0)
 
+        fun installOK() {
+            Log.i("Install", "ok")
+            _done.tryEmit(true)
+            if (method.needsLaunchTerminalAfterwards) {
+                OpenTerminal(applicationContext)
+            }
+        }
+
+        fun installFail(error: Int) {
+            Log.e("Install", "failed")
+            errorOut(error)
+        }
+
         // TODO: include methods needing cleanup properly
         Log.i("Download", "Downloading image")
 
@@ -75,19 +88,6 @@ class InstallMagic(
             Log.i("Install", "Installing")
             updateStatus(R.string.install_step_installing)
 
-            fun installOK() {
-                Log.i("Install", "ok")
-                _done.tryEmit(true)
-                if (method.needsLaunchTerminalAfterwards) {
-                    OpenTerminal(applicationContext)
-                }
-            }
-
-            fun installFail() {
-                Log.e("Install", "failed")
-                errorOut()
-            }
-
             if (method.needsImageClean)  {
                 if (!extra.cleanupImage()) {
                     withContext(Dispatchers.Main) {
@@ -102,15 +102,15 @@ class InstallMagic(
                 if (success) {
                     installOK()
                 } else {
-                    installFail()
+                    installFail(R.string.install_err_image)
                 }
             } catch(e: Exception) {
                 e.printStackTrace()
-                installFail()
+                installFail(R.string.install_err_image)
             }
         } else {
             Log.e("Download", "Failed to download file")
-            errorOut()
+            errorOut(R.string.install_err_network)
         }
     }
 
@@ -122,8 +122,8 @@ class InstallMagic(
         _text.tryEmit(out)
     }
 
-    fun errorOut() {
+    fun errorOut(error: Int) {
         // set status to "Error"
-        _text.tryEmit("Error!")
+        _text.tryEmit("Error! " + applicationContext.getString(error))
     }
 }

@@ -34,4 +34,7 @@
     <string name="toast_replace_script">Run in Terminal: bash /mnt/shared/image/replace.sh</string>
 
     <string name="remove_existing_image">You may need to remove the existing installation using Settings > Recovery > Remove existing data</string>
+
+    <string name="install_err_image">Failed to install image!</string>
+    <string name="install_err_network">Failed to download image! Check your network connection or go back and use \"Refresh\" button!</string>
 </resources>
