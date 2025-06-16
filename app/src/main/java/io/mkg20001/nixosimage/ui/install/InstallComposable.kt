@@ -78,15 +78,20 @@ fun InstallView(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun Instructions(method: String) {
+fun Instructions(orig_method: String) {
     val applicationContext = LocalContext.current.applicationContext
+    var method = orig_method
 
-    fun GetContent(file: String): String {
+    if (method.endsWith("_play")) {
+        method = method.dropLast(5)
+    }
+
+    fun getContent(file: String): String {
         return String(applicationContext.assets.open("instructions_$file.md").readAllBytes(),
             Charsets.UTF_8)
     }
 
-    val markdown = GetContent(method) + "\n" + GetContent("generic")
+    val markdown = getContent(method) + "\n" + getContent("generic")
 
     MarkdownText(
         modifier = Modifier.padding(8.dp),

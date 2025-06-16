@@ -20,14 +20,22 @@ android {
     }
 
     buildTypes {
+        val release by getting
+
         debug {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "true")
+            buildConfigField("boolean", "IS_PLAY_RELEASE", "false")
         }
         release {
             buildConfigField("boolean", "ALLOW_ANY_METHOD", "false")
+            buildConfigField("boolean", "IS_PLAY_RELEASE", "false")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles("proguard-rules.pro")
+        }
+        create("releasePlay") {
+            initWith(release)
+            buildConfigField("boolean", "IS_PLAY_RELEASE", "true")
         }
     }
     compileOptions {

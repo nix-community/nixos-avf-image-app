@@ -21,17 +21,18 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
-object ReplaceInstallMethod: ImageInstallMethod {
-    val TAG = "ReplaceInstall"
+object ReplacePlayInstallMethod: ImageInstallMethod {
+    val TAG = "ReplacePlayInstall"
 
-    override val id = "replace"
+    override val id = "replace_play"
 
     override val display = R.string.method_replace
     override val needsImageClean: Boolean = false
+    override val needsExternalStorage: Boolean = false
 
     override fun isAvailable(): Boolean {
-        // requires MANAGE_ALL_STORAGE
-        return !BuildConfig.IS_PLAY_RELEASE
+        // only on play, since it replaces the non-play method
+        return BuildConfig.IS_PLAY_RELEASE
     }
 
     fun getImageDownloadsDir(): Path {

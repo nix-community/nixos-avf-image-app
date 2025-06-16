@@ -33,7 +33,8 @@ interface ImageInstallMethod {
 }
 
 object InstallMethods {
-    val methods = listOf(DebugInstallMethod, MagiskInstallMethod, ReplaceInstallMethod)
+    val methods = listOf(DebugInstallMethod, MagiskInstallMethod, ReplaceInstallMethod,
+        ReplacePlayInstallMethod)
     fun availableMethods(): List<ImageInstallMethod> {
         return methods.filter { it.isAvailable() }
     }
