@@ -7,6 +7,7 @@ import com.topjohnwu.superuser.Shell
 import io.mkg20001.nixosimage.BuildConfig
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.extra.ExtraImageUtils
+import io.sentry.Sentry
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.File
 import kotlin.io.path.pathString
@@ -54,6 +55,7 @@ object MagiskInstallMethod: ImageInstallMethod {
                 return process.code == 0
             } catch (e: InterruptedException) {
                 e.printStackTrace()
+                Sentry.captureException(e)
                 return false
             }
         }

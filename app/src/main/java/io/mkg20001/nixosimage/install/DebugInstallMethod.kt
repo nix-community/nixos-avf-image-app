@@ -8,6 +8,7 @@ import android.util.Log
 import io.mkg20001.nixosimage.R
 import io.mkg20001.nixosimage.data.copyFile
 import io.mkg20001.nixosimage.data.mkdirp
+import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
@@ -54,6 +55,7 @@ object DebugInstallMethod: ImageInstallMethod {
             }
         } catch (e: IOException) {
             e.printStackTrace()
+            Sentry.captureException(e)
             return false
         }
 

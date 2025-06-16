@@ -45,8 +45,8 @@ suspend fun downloadFile(
 
             file
         } catch (e: Exception) {
-            Sentry.captureException(e)
             e.printStackTrace()
+            Sentry.captureException(e)
             null
         }
     }

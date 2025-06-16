@@ -2,6 +2,7 @@ package io.mkg20001.nixosimage.extra
 
 import android.util.Log
 import com.topjohnwu.superuser.Shell
+import io.sentry.Sentry
 
 class ExtraImageUtils() {
     companion object {
@@ -25,6 +26,7 @@ class ExtraImageUtils() {
             return process.code == 0
         } catch (e: InterruptedException) {
             e.printStackTrace()
+            Sentry.captureException(e)
             return false
         }
     }
