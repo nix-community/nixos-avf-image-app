@@ -1,7 +1,6 @@
 package io.mkg20001.nixosimage.data
 
 import android.content.Context
-import android.util.Log
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,7 +9,6 @@ import okhttp3.Request
 import okhttp3.internal.http2.StreamResetException
 import java.io.File
 import java.io.FileOutputStream
-import java.io.RandomAccessFile
 
 suspend fun downloadFile(
     context: Context,
@@ -28,8 +26,6 @@ suspend fun downloadFile(
                 try {
                     val alreadyDownloadedBytes = if (file.exists()) file.length() else 0L
 
-                    Log.w("DO", "dldl " + alreadyDownloadedBytes)
-
                     val client = OkHttpClient()
                     val request = Request.Builder().url(fileUrl).apply {
                         if (alreadyDownloadedBytes > 0) {
@@ -44,10 +40,6 @@ suspend fun downloadFile(
                     if (file.exists() && body.contentLength() == file.length()) {
                         onProgress(100) // update ui
                         return@withContext file
-                    }
-
-                    response.headers.forEach {
-                        Log.w("DA", it.first + " " + it.second)
                     }
 
                     val progressStream = ProgressStream(
