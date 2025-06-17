@@ -1,6 +1,7 @@
 package io.mkg20001.nixosimage.data
 
 import android.content.Context
+import android.util.Log
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,9 +20,10 @@ suspend fun downloadFile(
     return withContext(Dispatchers.IO) {
         try {
             val file = File(context.cacheDir, fileName)
+            var retry = 0
 
             while (true) {
-                var retry = 0
+                Log.d("DL", "Trying download, try $retry/3")
 
                 try {
                     val alreadyDownloadedBytes = if (file.exists()) file.length() else 0L
@@ -60,10 +62,10 @@ suspend fun downloadFile(
 
                     break
                 } catch(e: StreamResetException) {
-                    if (retry == 3) {
-                        throw e
-                    } else {
+                    if (retry != 3) {
                         retry++
+                    } else {
+                        throw e
                     }
                 } catch (e: java.net.SocketException) {
                     if (e.message?.contains("Software caused connection abort") == true && retry != 3) {
