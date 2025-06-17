@@ -8,7 +8,7 @@ import java.io.FilterInputStream
 import java.io.InputStream
 
 fun copyFile(source: File, dest: File, onProgress: (Int) -> Unit) {
-    ProgressStream(FileInputStream(source), source.length().toDouble(), onProgress).use { input ->
+    ProgressStream(FileInputStream(source), source.length().toDouble(), 0, onProgress).use { input ->
         FileOutputStream(dest).use { output ->
             input.copyTo(output)
         }
@@ -24,9 +24,7 @@ fun mkdirp(path: String): Boolean {
     }
 }
 
-class ProgressStream(val baseStream: InputStream, val totalSize: Double, val onProgress: (Int) -> Unit): FilterInputStream(baseStream) {
-    var bytesRead = 0L
-
+class ProgressStream(val baseStream: InputStream, val totalSize: Double, var bytesRead: Long, val onProgress: (Int) -> Unit): FilterInputStream(baseStream) {
     override fun read(): Int = super.read().also {
         if (it != -1) updateProgress(1)
     }

@@ -41,7 +41,7 @@ object ReplaceInstallMethod: ImageInstallMethod {
     fun installTo(source: File, dir: Path, onProgress: (Int) -> Unit) {
         Log.i(TAG, "Extracting. source: $source, destination: $dir")
 
-        val progressStream = ProgressStream(source.inputStream(), source.length().toDouble(), onProgress)
+        val progressStream = ProgressStream(source.inputStream(), source.length().toDouble(), 0, onProgress)
 
         TarArchiveInputStream(GzipCompressorInputStream(progressStream)).use { tarStream ->
             Files.createDirectories(dir)
