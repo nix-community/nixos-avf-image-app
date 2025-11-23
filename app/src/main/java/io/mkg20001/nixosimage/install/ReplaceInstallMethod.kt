@@ -73,15 +73,6 @@ object ReplaceInstallMethod: ImageInstallMethod {
 
         withContext(Dispatchers.IO) {
             Log.i(TAG, "Scripts")
-            listOf("replace.sh").forEach {
-                val file = File(dir.toFile(), it)
-                assets.open(it).use { input ->
-                    file.outputStream().use { output ->
-                        input.copyTo(output)
-                    }
-                }
-                file.setExecutable(true)
-            }
 
             // extract image to /sdcard/Download/image
             installTo(image, dir) {
@@ -89,6 +80,12 @@ object ReplaceInstallMethod: ImageInstallMethod {
                     Log.d(TAG, "Extract progress: $it%")
                     progress.tryEmit(it)
                 }
+            }
+
+            // force scripts to be executable
+            listOf("replace.sh").forEach {
+                val file = File(dir.toFile(), it)
+                file.setExecutable(true)
             }
         }
 
