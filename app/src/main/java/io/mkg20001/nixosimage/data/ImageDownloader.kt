@@ -10,17 +10,32 @@ import okhttp3.Request
 import okhttp3.internal.http2.StreamResetException
 import java.io.File
 import java.io.FileOutputStream
+import java.security.MessageDigest
 
 suspend fun downloadFile(
     context: Context,
     fileUrl: String,
     fileName: String,
+    digest: String,
     onProgress: (percent: Int) -> Unit,
 ): File? {
     return withContext(Dispatchers.IO) {
         try {
             val file = File(context.cacheDir, fileName)
             var retry = 0
+
+            val digestSplit = digest.split(":", limit = 2)
+            if (digestSplit.size != 2) {
+                throw IllegalArgumentException("Invalid digest format: $digest")
+            }
+
+            val digestAlgo = when (digestSplit[0].lowercase()) {
+                "sha256" -> "SHA-256"
+                "sha512" -> "SHA-512"
+                else -> throw IllegalArgumentException("Unsupported digest algorithm: ${digestSplit[0]}")
+            }
+
+            val expectedHex = digestSplit[1].lowercase()
 
             while (true) {
                 Log.d("DL", "Trying download, try $retry/3")
@@ -50,15 +65,24 @@ suspend fun downloadFile(
                         alreadyDownloadedBytes,
                         onProgress,
                     )
+
+                    val digest = MessageDigest.getInstance(digestAlgo)
+                    val digestStream = DigestStream(progressStream, digest)
+
                     val outputStream = FileOutputStream(file, true)
 
-                    progressStream.use { input ->
+                    digestStream.use { input ->
                         outputStream.use { output ->
                             input.copyTo(output)
                         }
                     }
 
-                    // TODO: maybe we should check the hash here if we have one (github release api might get it)
+                    if (!digestStream.validate(expectedHex)) {
+                        // TODO: toast
+                        Log.w("DL", "Hashsum missmatch")
+                        file.delete()
+                        continue
+                    }
 
                     break
                 } catch(e: StreamResetException) {

@@ -86,9 +86,9 @@ dependencies {
     // Optional - Included automatically by material, only add when you need
     // the icons but not the material library (e.g. when using Material3 or a
     // custom design system based on Foundation)
-    // implementation("androidx.compose.material:material-icons-core")
+    implementation(libs.androidx.compose.material.icons.core)
     // Optional - Add full set of material icons
-    // implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.material.icons.extended)
     // Optional - Add window size utils
     // implementation("androidx.compose.material3.adaptive:adaptive")
 

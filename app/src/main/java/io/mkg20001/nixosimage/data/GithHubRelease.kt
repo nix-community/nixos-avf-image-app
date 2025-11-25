@@ -36,7 +36,8 @@ data class GitHubReleaseAsset(
     val id: String,
     val name: String,
     var url: String,
-    var updatedAt: Any
+    var updatedAt: Any,
+    val digest: String,
 ): Serializable {
     var arch = ""
     var version = ""
@@ -91,7 +92,7 @@ object GitHubReleaseClient {
             GitHubRelease(
                 it!!.tagName,
                 it.releaseAssets.nodes!!.map {
-                    GitHubReleaseAsset(it!!.id, it.name, it.url.toString(), it.updatedAt)
+                    GitHubReleaseAsset(it!!.id, it.name, it.url.toString(), it.updatedAt, it.digest!!)
                 }.filter { it.version != "" }
             )
         }.filter { it.nixosVersion != "" }

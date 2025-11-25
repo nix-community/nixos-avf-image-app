@@ -84,7 +84,8 @@ class InstallMagic(
         val file = downloadFile(
             context = applicationContext,
             fileUrl = asset.url,
-            fileName = "image-cached-" + asset.id + "@" + asset.updatedAt
+            digest = asset.digest,
+            fileName = "image-cached-" + asset.id + "@" + asset.updatedAt + "#" + asset.digest
         ) { progress ->
             if (_progress.value != progress) {
                 Log.d("Download", "Progress: $progress%")

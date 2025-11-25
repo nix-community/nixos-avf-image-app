@@ -22,6 +22,8 @@ composeBom = "2025.11.01"
 
 
 [libraries]
+androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 libsu-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsu" }
 libsu-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsu" }

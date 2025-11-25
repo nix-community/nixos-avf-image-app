@@ -6,6 +6,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FilterInputStream
 import java.io.InputStream
+import java.security.MessageDigest
 
 fun copyFile(source: File, dest: File, onProgress: (Int) -> Unit) {
     ProgressStream(FileInputStream(source), source.length().toDouble(), 0, onProgress).use { input ->
@@ -36,6 +37,31 @@ class ProgressStream(val baseStream: InputStream, val totalSize: Double, var byt
     fun updateProgress(count: Int) {
         bytesRead += count
         onProgress(((bytesRead / totalSize) * 100).toInt().coerceIn(0, 100))
+    }
+}
+
+fun hexToByteArray(hex: String): ByteArray {
+    val cleanHex = hex.replace(" ", "")
+    require(cleanHex.length % 2 == 0) { "Hex string must have even length" }
+
+    return ByteArray(cleanHex.length / 2) { i ->
+        cleanHex.substring(i * 2, i * 2 + 2).toInt(16).toByte()
+    }
+}
+
+class DigestStream(val baseStream: InputStream, val digest: MessageDigest): FilterInputStream(baseStream) {
+    override fun read(): Int = super.read().also {
+        // Done
+    }
+
+    override fun read(b: ByteArray, off: Int, len: Int): Int = super.read(b, off, len).also {
+       // Hash bytes
+       digest.update(b)
+    }
+
+    fun validate(expectedHex: String): Boolean {
+        val actual = digest.digest()
+        return actual contentEquals hexToByteArray(expectedHex)
     }
 }
 
