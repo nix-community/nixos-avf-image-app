@@ -10,6 +10,7 @@ import okhttp3.Request
 import okhttp3.internal.http2.StreamResetException
 import java.io.File
 import java.io.FileOutputStream
+import java.io.OutputStream
 import java.security.MessageDigest
 
 suspend fun downloadFile(
@@ -67,14 +68,28 @@ suspend fun downloadFile(
                     )
 
                     val digest = MessageDigest.getInstance(digestAlgo)
-                    val digestStream = DigestStream(progressStream, digest)
-
                     val outputStream = FileOutputStream(file, true)
+                    var digestStream: DigestStream
 
-                    digestStream.use { input ->
-                        outputStream.use { output ->
-                            input.copyTo(output)
+
+                    if (alreadyDownloadedBytes < 1) {
+                        digestStream = DigestStream(progressStream, digest)
+
+                        digestStream.use { input ->
+                            outputStream.use { output ->
+                                input.copyTo(output)
+                            }
                         }
+                    } else {
+                        // data is only partial in this case, hash at the end
+                        progressStream.use { input ->
+                            outputStream.use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+
+                        digestStream = DigestStream(file.inputStream(), digest)
+                        digestStream.copyTo(OutputStream.nullOutputStream())
                     }
 
                     if (!digestStream.validate(expectedHex)) {
