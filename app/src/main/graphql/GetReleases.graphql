@@ -12,6 +12,7 @@ query GetReleases {
             name
             url
             updatedAt
+            digest
           }
         }
       }
