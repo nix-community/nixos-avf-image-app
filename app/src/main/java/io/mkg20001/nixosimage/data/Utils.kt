@@ -51,12 +51,15 @@ fun hexToByteArray(hex: String): ByteArray {
 
 class DigestStream(val baseStream: InputStream, val digest: MessageDigest): FilterInputStream(baseStream) {
     override fun read(): Int = super.read().also {
-        // Done
+        if (it != -1) {
+            digest.update(it.toByte())
+        }
     }
 
     override fun read(b: ByteArray, off: Int, len: Int): Int = super.read(b, off, len).also {
-       // Hash bytes
-       digest.update(b)
+       if (it > 0) {
+           digest.update(b, off, it)
+       }
     }
 
     fun validate(expectedHex: String): Boolean {
