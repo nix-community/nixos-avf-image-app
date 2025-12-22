@@ -51,7 +51,9 @@ fun hexToByteArray(hex: String): ByteArray {
 
 class DigestStream(val baseStream: InputStream, val digest: MessageDigest): FilterInputStream(baseStream) {
     override fun read(): Int = super.read().also {
-        // Done
+        if (it != -1) {
+            digest.update(it.toByte())
+        }
     }
 
     override fun read(b: ByteArray, off: Int, len: Int): Int {
