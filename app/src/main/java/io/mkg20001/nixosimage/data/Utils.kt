@@ -54,13 +54,17 @@ class DigestStream(val baseStream: InputStream, val digest: MessageDigest): Filt
         // Done
     }
 
-    override fun read(b: ByteArray, off: Int, len: Int): Int = super.read(b, off, len).also {
-       // Hash bytes
-       digest.update(b)
+    override fun read(b: ByteArray, off: Int, len: Int): Int {
+        val count = super.read(b, off, len)
+        if (count > 0) {
+            digest.update(b, off, count)
+        }
+        return count
     }
 
     fun validate(expectedHex: String): Boolean {
         val actual = digest.digest()
+        Log.d("DL", "Hash ${actual.toHexString()} - wanted ${hexToByteArray(expectedHex).toHexString()}")
         return actual contentEquals hexToByteArray(expectedHex)
     }
 }

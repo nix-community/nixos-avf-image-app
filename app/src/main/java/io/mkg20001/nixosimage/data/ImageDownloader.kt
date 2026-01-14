@@ -38,6 +38,8 @@ suspend fun downloadFile(
 
             val expectedHex = digestSplit[1].lowercase()
 
+            Log.d("DL", "Expected digest=${digest}, algo=${digestAlgo}, expectedHex=${expectedHex}")
+
             while (true) {
                 Log.d("DL", "Trying download, try $retry/3")
 
@@ -71,8 +73,9 @@ suspend fun downloadFile(
                     val outputStream = FileOutputStream(file, true)
                     var digestStream: DigestStream
 
-
                     if (alreadyDownloadedBytes < 1) {
+                        Log.d("DL", "Full download, hash during download")
+
                         digestStream = DigestStream(progressStream, digest)
 
                         digestStream.use { input ->
@@ -81,6 +84,7 @@ suspend fun downloadFile(
                             }
                         }
                     } else {
+                        Log.d("DL", "Partial, rehash fully")
                         // data is only partial in this case, hash at the end
                         progressStream.use { input ->
                             outputStream.use { output ->
@@ -94,8 +98,9 @@ suspend fun downloadFile(
 
                     if (!digestStream.validate(expectedHex)) {
                         // TODO: toast
-                        Log.w("DL", "Hashsum missmatch")
+                        Log.w("DL", "Hashsum missmatch - wanted ${expectedHex}")
                         file.delete()
+                        retry++
                         continue
                     }
 
