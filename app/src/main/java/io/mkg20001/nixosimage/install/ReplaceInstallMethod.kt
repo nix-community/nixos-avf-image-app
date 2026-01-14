@@ -37,6 +37,10 @@ object ReplaceInstallMethod: ImageInstallMethod {
         return Environment.getExternalStoragePublicDirectory("Download/image").toPath()
     }
 
+    fun getImageAlternateDir(): Path {
+        return Environment.getExternalStoragePublicDirectory("image").toPath()
+    }
+
     @Throws(IOException::class)
     fun installTo(source: File, dir: Path, onProgress: (Int) -> Unit) {
         Log.i(TAG, "Extracting. source: $source, destination: $dir")
@@ -66,8 +70,13 @@ object ReplaceInstallMethod: ImageInstallMethod {
     ): Boolean {
 
         val dir = getImageDownloadsDir()
+        val altDir = getImageAlternateDir()
 
         if (!mkdirp(dir.toString())) {
+            return false
+        }
+
+        if (!mkdirp(altDir.toString())) {
             return false
         }
 
@@ -83,9 +92,13 @@ object ReplaceInstallMethod: ImageInstallMethod {
             }
 
             // force scripts to be executable
+            // also copy to alt location, for qpr3 fix
             listOf("replace.sh").forEach {
                 val file = File(dir.toFile(), it)
                 file.setExecutable(true)
+                val altFile = File(altDir.toFile(), it)
+                altFile.writeBytes(file.readBytes())
+                altFile.setExecutable(true)
             }
         }
 
