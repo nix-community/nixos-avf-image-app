@@ -16,21 +16,6 @@
         android:name="android.permission.DUMP"
         tools:ignore="ProtectedPermissions" />
 
-    <application
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
-            android:exported="true" />
-    </application>
-
     <meta-data
         android:name="io.sentry.dsn"
         android:value="" />
