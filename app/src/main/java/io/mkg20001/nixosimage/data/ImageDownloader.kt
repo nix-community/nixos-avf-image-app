@@ -62,6 +62,22 @@ suspend fun downloadFile(
                         return@withContext file
                     }
 
+                    if (alreadyDownloadedBytes > 0) {
+                        if (response.code != 206) {
+                            Log.w("DL", "Server ignored Range request, restarting download")
+                            file.delete()
+                            retry++
+                            continue
+                        }
+                        val range = response.header("Content-Range")
+                        if ((range == null || !range.startsWith("bytes $alreadyDownloadedBytes-"))) {
+                            Log.w("DL", "Missmatched range, restarting download")
+                            file.delete()
+                            retry++
+                            continue
+                        }
+                    }
+
                     val progressStream = ProgressStream(
                         body.source().inputStream(),
                         body.contentLength().toDouble(),
