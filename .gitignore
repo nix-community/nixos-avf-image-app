@@ -39,3 +39,4 @@ wip
 
 # Sentry Config File
 sentry.properties
+.direnv
