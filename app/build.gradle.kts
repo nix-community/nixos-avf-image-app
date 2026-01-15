@@ -66,11 +66,11 @@ dependencies {
     implementation(libs.libsu.core)
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-compress
-    implementation("org.apache.commons:commons-compress:1.27.1")
+    implementation("org.apache.commons:commons-compress:1.28.0")
 
     // for permission granting
     // implementation("androidx.test:rules:1.2.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 
     // graphql
     /* implementation("com.squareup.okhttp3:okhttp:4.10.0")
