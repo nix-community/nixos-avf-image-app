@@ -41,6 +41,7 @@ suspend fun downloadFile(
             Log.d("DL", "Expected digest=${digest}, algo=${digestAlgo}, expectedHex=${expectedHex}")
 
             while (true) {
+                retry++
                 Log.d("DL", "Trying download, try $retry/3")
 
                 try {
@@ -66,14 +67,12 @@ suspend fun downloadFile(
                         if (response.code != 206) {
                             Log.w("DL", "Server ignored Range request, restarting download")
                             file.delete()
-                            retry++
                             continue
                         }
                         val range = response.header("Content-Range")
                         if ((range == null || !range.startsWith("bytes $alreadyDownloadedBytes-"))) {
                             Log.w("DL", "Missmatched range, restarting download")
                             file.delete()
-                            retry++
                             continue
                         }
                     }
@@ -116,21 +115,20 @@ suspend fun downloadFile(
                         // TODO: toast
                         Log.w("DL", "Hashsum missmatch - wanted ${expectedHex}")
                         file.delete()
-                        retry++
                         continue
                     }
 
                     break
                 } catch(e: StreamResetException) {
-                    if (retry != 3) {
-                        retry++
-                    } else {
+                    if (retry == 3) {
                         throw e
                     }
                 } catch (e: java.net.SocketException) {
-                    if (e.message?.contains("Software caused connection abort") == true && retry != 3) {
-                        retry++
-                    } else {
+                    if (e.message?.contains("Software caused connection abort") != true) {
+                        throw e
+                    }
+
+                    if (retry == 3) {
                         throw e
                     }
                 }
