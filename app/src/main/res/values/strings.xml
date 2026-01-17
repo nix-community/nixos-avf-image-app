@@ -37,4 +37,6 @@
 
     <string name="install_err_image">Failed to install image!</string>
     <string name="install_err_network">Failed to download image! Check your network connection or go back and use \"Refresh\" button!</string>
+
+    <string name="version">Version:</string>
 </resources>

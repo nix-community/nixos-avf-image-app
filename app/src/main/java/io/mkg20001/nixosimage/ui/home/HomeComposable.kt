@@ -133,6 +133,7 @@ fun HomeComposable() {
     }
 
     Column(modifier = Modifier.padding(24.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(stringResource(R.string.version) + " " + BuildConfig.VERSION_NAME, modifier = baseModifier.padding(0.dp, 10.dp).testTag("loaded_ui"))
         when (val s = v) {
             is HomeUiValues.Loading ->
                 @Composable {
