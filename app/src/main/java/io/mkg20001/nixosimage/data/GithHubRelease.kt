@@ -68,7 +68,7 @@ data class GitHubReleaseAsset(
 } */
 
 val apolloClient = ApolloClient.Builder()
-    .serverUrl("https://nixos-image.mkg20001.io/graphql")
+    .serverUrl("https://nixos-image.mkg20001.net/graphql")
     // If you want to develop on the server, run "cargo run" and fill in your IP here
     // .serverUrl("http://192.168.178.69:8000/graphql")
     // Access github directly with auth
