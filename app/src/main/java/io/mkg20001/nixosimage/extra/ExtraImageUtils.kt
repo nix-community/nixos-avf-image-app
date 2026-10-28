@@ -7,7 +7,7 @@ import io.sentry.Sentry
 class ExtraImageUtils() {
     companion object {
         val RM_EXISTING = "rm -rfv /data/data/com.android.virtualization.terminal/{files/nixos.log,files/debian.log,files/linux,vm/nixos,vm/debian}"
-        val LAUNCH_INSTALLER = "am start -n com.android.virtualization.terminal/.InstallerActivity"
+        val LAUNCH_INSTALLER = "am start -n com.android.virtualization.terminal/.InstallerActivity || am start -n com.android.virtualization.terminal/.new2.ui.InstallerActivity"
     }
 
     val shell = Shell.getShell()

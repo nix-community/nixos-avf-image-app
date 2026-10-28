@@ -21,18 +21,24 @@ import kotlinx.coroutines.withContext
 
 fun OpenTerminal(applicationContext: Context) {
     val packageName = "com.android.virtualization.terminal"
-    val className = "com.android.virtualization.terminal.MainActivity"
-
-    val intent = Intent().apply {
-        setClassName(packageName, className)
-    }
-    intent.flags = FLAG_ACTIVITY_NEW_TASK
+    val launchIntent = applicationContext.packageManager.getLaunchIntentForPackage(packageName)
+        ?: Intent().apply {
+            setClassName(packageName, "com.android.virtualization.terminal.new2.ui.MainActivity")
+        }
+    launchIntent.flags = FLAG_ACTIVITY_NEW_TASK
 
     try {
-        startActivity(applicationContext, intent, null)
+        startActivity(applicationContext, launchIntent, null)
     } catch (e: Exception) {
-        e.printStackTrace()
-        // Handle the case when the target activity is not found or other issues
+        try {
+            val fallback = Intent().apply {
+                setClassName(packageName, "com.android.virtualization.terminal.MainActivity")
+                flags = FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(applicationContext, fallback, null)
+        } catch (e2: Exception) {
+            e2.printStackTrace()
+        }
     }
 }
 
